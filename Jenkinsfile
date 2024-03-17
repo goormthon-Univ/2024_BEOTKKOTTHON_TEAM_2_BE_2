@@ -15,6 +15,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                     script {
+                        sh 'chmod +x ./gradlew'
                         sh './gradlew build'
                     }
             }
