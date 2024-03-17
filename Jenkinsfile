@@ -1,8 +1,8 @@
 pipeline {
     agent any
     tools {
-        JDK "java"
-        Gradle "gradle"
+        jdk "java"
+        gradle "gradle"
     }
     stages {
         stage('Checkout') {
