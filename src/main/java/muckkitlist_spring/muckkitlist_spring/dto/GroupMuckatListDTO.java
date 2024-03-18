@@ -7,10 +7,10 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class GroupMuckatListDTO {
-  private String groupmuckatId;
-  private String userId;
-  private String groupName;
-  private boolean roomMaster;
+  private final String groupmuckatId;
+  private final String userId;
+  private final String groupName;
+  private final boolean roomMaster;
 
 
 }

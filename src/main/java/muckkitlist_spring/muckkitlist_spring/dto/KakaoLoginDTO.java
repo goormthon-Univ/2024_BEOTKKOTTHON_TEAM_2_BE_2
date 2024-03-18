@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class KakaoLoginDTO {
-  private String code;
-  private String refreshToken;
-  private String kakaoId;
+  private final String code;
+  private final String refreshToken;
+  private final String kakaoId;
 
 }

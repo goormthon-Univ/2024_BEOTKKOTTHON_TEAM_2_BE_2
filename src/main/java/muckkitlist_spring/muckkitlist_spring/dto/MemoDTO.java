@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class MemoDTO {
-  private String muckatlistId;
-  private String memoId;
-  private RestaurantInfoDTO restaurant;
+  private final String muckatlistId;
+  private final String memoId;
+  private final String restaurantId;
 
 }

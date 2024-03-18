@@ -34,4 +34,7 @@ public class UserReviewEntity {
 
   @Column(name = "details")
   private String details;
+
+  @Column(name = "like_count")
+  private String like_count;
 }

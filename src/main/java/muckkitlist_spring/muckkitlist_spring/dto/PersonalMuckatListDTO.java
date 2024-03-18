@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class PersonalMuckatListDTO {
-  private String personalMuckatId;
-  private UserInfoDTO user;
-  private String personalName;
+  private final String personalMuckatId;
+  private final String userId;
+  private final String personalName;
 
 }

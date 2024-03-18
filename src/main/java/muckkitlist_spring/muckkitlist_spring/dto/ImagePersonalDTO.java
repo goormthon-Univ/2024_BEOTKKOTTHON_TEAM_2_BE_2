@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class ImagePersonalDTO {
-  private String imagePersonalId;
-  private String userId;
-  private String imageSrc;
+  private final String imagePersonalId;
+  private final String userId;
+  private final String imageSrc;
 
 }

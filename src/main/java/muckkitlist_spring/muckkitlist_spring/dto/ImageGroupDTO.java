@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class ImageGroupDTO {
-  private String imageGroupId;
-  private String groupMuckatId;
-  private String imageSrc;
+  private final String imageGroupId;
+  private final String groupMuckatId;
+  private final String imageSrc;
 
 }

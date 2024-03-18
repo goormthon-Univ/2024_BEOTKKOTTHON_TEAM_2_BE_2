@@ -4,10 +4,12 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @RequiredArgsConstructor
 public class ImageDbDTO {
-  private String imageId;
-  private java.sql.Date imageTimestamp;
+  private final String imageId;
+  private final LocalDate imageTimestamp;
 
 }
