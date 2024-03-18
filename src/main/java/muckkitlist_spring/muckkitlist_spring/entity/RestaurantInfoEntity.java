@@ -22,7 +22,7 @@ public class RestaurantInfoEntity {
   private String address;
 
   @Column(name = "review_count")
-  private long reviewCount;
+  private int reviewCount;
 
   @Column(name = "avg_grade")
   private double avgGrade;

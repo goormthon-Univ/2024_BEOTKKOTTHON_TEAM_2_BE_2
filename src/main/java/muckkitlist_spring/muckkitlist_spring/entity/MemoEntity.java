@@ -15,12 +15,12 @@ import org.hibernate.annotations.OnDeleteAction;
 @RequiredArgsConstructor
 public class MemoEntity {
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "muckatlist_id")
-  private String muckatlistId;
+  private Long muckatlistId;
   @Column(name = "memo_id")
   private String memoId;
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @OnDelete(action = OnDeleteAction.CASCADE)
   @JoinColumn(name = "restaurant_id")
   private RestaurantInfoEntity restaurant;
 

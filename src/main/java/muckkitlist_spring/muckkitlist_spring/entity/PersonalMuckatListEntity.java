@@ -15,10 +15,9 @@ public class PersonalMuckatListEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "personal_muckat_id")
-  private String personalMuckatId;
+  private Long personalMuckatId;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @OnDelete(action = OnDeleteAction.CASCADE)
   @JoinColumn(name = "user_id")
   private UserInfoEntity user;
 

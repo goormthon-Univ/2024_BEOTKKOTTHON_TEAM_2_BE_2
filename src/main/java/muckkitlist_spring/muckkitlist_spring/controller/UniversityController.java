@@ -36,6 +36,7 @@ public class UniversityController {
     @Operation(summary = "모든 대학교 목록 조회", description = "모든 대학교 정보를 조회합니다.")
     public ResponseEntity<List<UniversityInfoEntity>> getAllUniversities() {
         List<UniversityInfoEntity> universities = universityInfoService.getAllUniversities();
+        System.out.println(universities.get(0).getPositionX());
         return ResponseEntity.ok(universities);
     }
 }

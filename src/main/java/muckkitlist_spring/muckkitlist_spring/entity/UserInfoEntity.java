@@ -18,12 +18,11 @@ public class UserInfoEntity {
   @Column(name = "user_id")
   private String userId;
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @OnDelete(action = OnDeleteAction.CASCADE)
   @JoinColumn(name = "university_name")
   private UniversityInfoEntity university;
 
   @Column(name = "point")
-  private long point;
+  private int point;
 
   @Column(name = "fcm_token")
   private String fcmToken;

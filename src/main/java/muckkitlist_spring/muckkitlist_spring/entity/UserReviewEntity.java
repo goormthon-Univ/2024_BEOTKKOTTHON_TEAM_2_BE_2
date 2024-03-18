@@ -13,16 +13,15 @@ import org.hibernate.annotations.OnDeleteAction;
 @RequiredArgsConstructor
 public class UserReviewEntity {
   @Id
+  @GeneratedValue
   @Column(name = "user_review_id")
-  private String userReviewId;
+  private Long userReviewId;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @OnDelete(action = OnDeleteAction.CASCADE)
   @JoinColumn(name = "user_id")
   private UserInfoEntity userInfo;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @OnDelete(action = OnDeleteAction.CASCADE)
   @JoinColumn(name = "restaurant_id")
   private RestaurantInfoEntity restaurant;
 

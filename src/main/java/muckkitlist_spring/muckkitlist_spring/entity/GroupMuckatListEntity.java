@@ -15,10 +15,9 @@ public class GroupMuckatListEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "groupmuckat_id")
-  private String groupmuckatId;
+  private Long groupmuckatId;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @OnDelete(action = OnDeleteAction.CASCADE)
   @JoinColumn(name = "user_id")
   private UserInfoEntity user;
 
@@ -26,5 +25,5 @@ public class GroupMuckatListEntity {
   private String groupName;
 
   @Column(name = "room_master")
-  private long roomMaster;
+  private byte roomMaster;
 }

@@ -14,11 +14,11 @@ import org.hibernate.annotations.OnDeleteAction;
 @RequiredArgsConstructor
 public class ImageGroupEntity {
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "image_group_id")
-  private String imageGroupId;
+  private Long imageGroupId;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @OnDelete(action = OnDeleteAction.CASCADE)
   @JoinColumn(name = "groupmuckat_id")
   private GroupMuckatListEntity groupMuckatListEntity;
 

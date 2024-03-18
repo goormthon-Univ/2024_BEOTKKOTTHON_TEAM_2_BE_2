@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.LocalDate;
+
 
 @Entity
 @Table(name = "Schedule")
@@ -19,17 +21,16 @@ public class ScheduleEntity {
   private String scheduleId;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @OnDelete(action = OnDeleteAction.CASCADE)
   @JoinColumn(name = "restaurant_id")
   private RestaurantInfoEntity restaurantInfoEntity;
 
   @Column(name = "group_schedule")
-  private long groupSchedule;
+  private byte groupSchedule;
 
   @Column(name = "muckatlist_id")
   private String muckatlistId;
 
   @Column(name = "schedule_time")
-  private java.sql.Date scheduleTime;
+  private LocalDate scheduleTime;
 
 }

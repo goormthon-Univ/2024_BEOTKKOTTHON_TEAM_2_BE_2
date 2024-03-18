@@ -15,11 +15,15 @@ import org.hibernate.annotations.OnDeleteAction;
 @RequiredArgsConstructor
 public class UserFavoriteEntity {
   @Id
-  @Column(name = "user_id")
-  private String userId;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "heart_id")
+  private Long heart_id;
+
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @OnDelete(action = OnDeleteAction.CASCADE)
   @JoinColumn(name = "restaurant_id")
   private RestaurantInfoEntity restaurantInfoEntity;
 
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "user_id")
+  private UserInfoEntity userInfoEntity;
 }

@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "Image_DB")
 @Getter
@@ -18,6 +20,6 @@ public class ImageDbEntity {
   @Column(name = "image_id")
   private String imageId;
   @Column(name = "image_timestamp")
-  private java.sql.Date imageTimestamp;
+  private LocalDate imageTimestamp;
 
 }
