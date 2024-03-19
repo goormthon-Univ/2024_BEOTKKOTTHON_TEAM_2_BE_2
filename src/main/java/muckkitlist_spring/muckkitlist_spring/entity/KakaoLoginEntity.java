@@ -1,12 +1,9 @@
 package muckkitlist_spring.muckkitlist_spring.entity;
 
 
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import lombok.RequiredArgsConstructor;
 
 
@@ -18,9 +15,12 @@ public class KakaoLoginEntity {
   @Id
   @Column(name = "code")
   private String code;
+
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "user_id")
+  private UserInfoEntity userInfoEntity;
+
   @Column(name = "refresh_token")
   private String refreshToken;
-  @Column(name = "kakao_id")
-  private String kakaoId;
 
 }

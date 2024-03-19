@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "image_group")
 @Getter
@@ -21,6 +23,6 @@ public class ImageGroupEntity {
   @JoinColumn(name = "groupmuckat_id")
   private GroupMuckatListEntity groupMuckatListEntity;
 
-  @Column(name = "image_src")
-  private String imageSrc;
+  @Column(name= "timestamp")
+  private LocalDate timestamp;
 }

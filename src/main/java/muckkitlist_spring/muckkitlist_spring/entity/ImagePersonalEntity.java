@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.LocalDate;
+
 
 @Entity
 @Table(name = "image_personal")
@@ -19,10 +21,13 @@ public class ImagePersonalEntity {
   private String imagePersonalId;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "personal_muckat_id")
+  private PersonalMuckatListEntity personalMuckatListEntity;
+
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
   @JoinColumn(name = "user_id")
   private UserInfoEntity userInfoEntity;
 
-  @Column(name = "image_src")
-  private String imageSrc;
-
+  @Column(name= "timestamp")
+  private LocalDate timestamp;
 }
