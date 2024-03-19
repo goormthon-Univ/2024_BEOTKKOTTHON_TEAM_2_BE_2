@@ -8,14 +8,13 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Table(name = "PersonalMuckatList")
+@Table(name = "personal_muckat_list")
 @Getter
 @RequiredArgsConstructor
 public class PersonalMuckatListEntity {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "personal_muckat_id")
-  private Long personalMuckatId;
+  private String personalMuckatId;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
   @JoinColumn(name = "user_id")

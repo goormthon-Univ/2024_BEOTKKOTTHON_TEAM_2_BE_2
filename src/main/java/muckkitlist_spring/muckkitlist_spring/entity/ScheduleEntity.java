@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 
 @Entity
-@Table(name = "Schedule")
+@Table(name = "schedule")
 @Getter
 @RequiredArgsConstructor
 public class ScheduleEntity {
@@ -25,7 +25,7 @@ public class ScheduleEntity {
   private RestaurantInfoEntity restaurantInfoEntity;
 
   @Column(name = "group_schedule")
-  private byte groupSchedule;
+  private boolean groupSchedule;
 
   @Column(name = "muckatlist_id")
   private String muckatlistId;

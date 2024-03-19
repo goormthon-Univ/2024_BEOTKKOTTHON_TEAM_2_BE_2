@@ -10,7 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.util.List;
 
 @Entity
-@Table(name = "User_Info")
+@Table(name = "user_info")
 @Getter
 @RequiredArgsConstructor
 public class UserInfoEntity {

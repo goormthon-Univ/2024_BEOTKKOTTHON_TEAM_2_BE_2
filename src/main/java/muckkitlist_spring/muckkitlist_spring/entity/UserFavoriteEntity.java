@@ -10,7 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 
 @Entity
-@Table(name = "User_Favorite")
+@Table(name = "user_favorite")
 @Getter
 @RequiredArgsConstructor
 public class UserFavoriteEntity {

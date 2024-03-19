@@ -9,7 +9,7 @@ import muckkitlist_spring.muckkitlist_spring.entity.UniversityInfoEntity;
 @RequiredArgsConstructor
 public class UserInfoDTO {
   private final String userId;
-  private final UniversityInfoDTO university;
+  private final UniversityInfoEntity university;
   private final long point;
   private final String fcmToken;
 

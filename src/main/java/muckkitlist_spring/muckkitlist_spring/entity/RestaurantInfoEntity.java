@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "Restaurant_info")
+@Table(name = "restaurant_info")
 @Getter
 @RequiredArgsConstructor
 public class RestaurantInfoEntity {

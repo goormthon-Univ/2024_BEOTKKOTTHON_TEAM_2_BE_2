@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 
 @Entity
-@Table(name = "KakaoLogin")
+@Table(name = "kakao_login")
 @Getter
 @RequiredArgsConstructor
 public class KakaoLoginEntity {

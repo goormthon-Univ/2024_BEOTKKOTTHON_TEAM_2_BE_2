@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "Image_DB")
+@Table(name = "image_db")
 @Getter
 @RequiredArgsConstructor
 public class ImageDbEntity {

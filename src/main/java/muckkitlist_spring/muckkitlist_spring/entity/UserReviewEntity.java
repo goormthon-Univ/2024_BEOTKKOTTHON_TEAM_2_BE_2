@@ -8,14 +8,13 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Table(name = "User_Review")
+@Table(name = "user_review")
 @Getter
 @RequiredArgsConstructor
 public class UserReviewEntity {
   @Id
-  @GeneratedValue
   @Column(name = "user_review_id")
-  private Long userReviewId;
+  private String userReviewId;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
   @JoinColumn(name = "user_id")

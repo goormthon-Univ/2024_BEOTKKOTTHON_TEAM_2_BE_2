@@ -9,7 +9,7 @@ import muckkitlist_spring.muckkitlist_spring.entity.RestaurantInfoEntity;
 @RequiredArgsConstructor
 public class UserFavoriteDTO {
   private final String userId;
-  private final RestaurantInfoDTO restaurantInfo;
+  private final RestaurantInfoEntity restaurantInfoEntity;
 
   // 생성자, Getter 메서드는 롬복 라이브러리를 통해 자동으로 생성됨
 }

@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "University_info")
+@Table(name = "university_info")
 @Getter
 @RequiredArgsConstructor
 public class UniversityInfoEntity {
