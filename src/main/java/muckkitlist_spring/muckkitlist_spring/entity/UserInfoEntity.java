@@ -26,4 +26,16 @@ public class UserInfoEntity {
 
   @Column(name = "fcm_token")
   private String fcmToken;
+
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
+
+  public void updateUniversityInfo(UniversityInfoEntity university) {
+    this.university = university;
+  }
+
+  public void setUniversityEntity(UniversityInfoEntity university) {
+    this.university=university;
+  }
 }

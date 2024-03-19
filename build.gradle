@@ -32,6 +32,8 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2' //swagger
+	implementation 'org.mapstruct:mapstruct:1.4.2.Final' // 사용 중인 MapStruct 버전에 맞게 변경
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final' // 사용 중인 MapStruct 버전에 맞게 변경
 
 
 }
