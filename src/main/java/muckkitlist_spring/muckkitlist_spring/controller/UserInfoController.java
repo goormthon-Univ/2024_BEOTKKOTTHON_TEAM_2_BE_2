@@ -32,7 +32,7 @@ public class UserInfoController {
     }
 
     @GetMapping("/{userId}")
-    @Operation(summary = "사용자 조회", description = "특정 사용자의 정보를 조회합니다.")
+    @Operation(summary = "사용자 조회", description = "특정 사용자의 정보를 아이디값으로 조회합니다.")
     public ResponseEntity<UserInfoDTO> getUserById(@PathVariable String userId) {
         UserInfoDTO userDTO = userInfoService.getUserById(userId);
         return userDTO != null ?
@@ -41,14 +41,14 @@ public class UserInfoController {
     }
 
     @PostMapping("/{setUniversity}")
-    @Operation(summary = "사용자 생성", description = "새로운 사용자를 생성합니다.")
+    @Operation(summary = "사용자 생성", description = "새로운 사용자를 생성합니다.대학교를 넣어서 생성합니다.(자고 일어나서 나머지 처리예정)")
     public ResponseEntity<UserInfoDTO> createUser(@RequestBody UserInfoDTO userInfoDTO,@PathVariable String setUniversity) {
         UserInfoDTO createdUserDTO = userInfoService.createUser(userInfoDTO,setUniversity);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUserDTO);
     }
 
     @PutMapping("/{userId}/{changeUniversity}")
-    @Operation(summary = "사용자 정보 수정", description = "특정 사용자의 정보를 수정합니다.")
+    @Operation(summary = "사용자 정보 수정", description = "특정 사용자의 대학교 정보를 수정합니다.")
     public ResponseEntity<UserInfoDTO> updateUser(@PathVariable String userId,@PathVariable String changeUniversity, @RequestBody UserInfoDTO userInfoDTO) {
         UserInfoDTO updatedUserDTO = userInfoService.updateUser(userId, changeUniversity,userInfoDTO);
         return ResponseEntity.ok(updatedUserDTO);

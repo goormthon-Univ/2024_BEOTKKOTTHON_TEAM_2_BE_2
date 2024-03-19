@@ -18,6 +18,10 @@ public class UniversityInfoService {
     private final UniversityInfoRepository universityInfoRepository;
     private final UniversityInfoMapper universityInfoMapper;
 
+    public UniversityInfoDTO getUniversityByName(String universityName) {
+        UniversityInfoEntity universityEntity = universityInfoRepository.findByUniversityName(universityName);
+        return universityInfoMapper.toDto(universityEntity);
+    }
 
     public List<UniversityInfoDTO> getAllUniversities() {
         List<UniversityInfoEntity> universityEntities = universityInfoRepository.findAll();

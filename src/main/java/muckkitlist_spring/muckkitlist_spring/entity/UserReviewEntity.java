@@ -1,11 +1,10 @@
 package muckkitlist_spring.muckkitlist_spring.entity;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.Optional;
 
 @Entity
 @Table(name = "user_review")
@@ -35,4 +34,40 @@ public class UserReviewEntity {
 
   @Column(name = "like_count")
   private String like_count;
+
+  public void setUserId(UserInfoEntity userInfo) {
+    this.userInfo=userInfo;
+  }
+  public void setRestaurantId(RestaurantInfoEntity restaurant) {
+    this.restaurant=restaurant;
+  }
+
+
+  public void setUserReviewId(String userReviewId) {
+    this.userReviewId=userReviewId;
+  }
+
+  public void setUserInfo(UserInfoEntity userInfo) {
+    this.userInfo=userInfo;
+  }
+
+  public void setRestaurant(RestaurantInfoEntity restaurant) {
+    this.restaurant=restaurant;
+  }
+
+  public void setStar(double star) {
+    this.star=star;
+  }
+
+  public void setWriteTime(String writeTime) {
+    this.writeTime=writeTime;
+  }
+
+  public void setLike_count(String like_count) {
+    this.like_count=like_count;
+  }
+
+  public void setDetails(String details) {
+    this.details=details;
+  }
 }

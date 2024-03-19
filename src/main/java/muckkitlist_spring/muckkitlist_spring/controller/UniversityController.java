@@ -30,6 +30,16 @@ public class UniversityController {
         this.universityInfoMapper = universityInfoMapper;
     }
 
+    @GetMapping("/university/{universityName}")
+    @Operation(summary = "특정 대학교 목록 조회", description = "값을 준 대학교를 조회합니다.")
+    public ResponseEntity<UniversityInfoDTO> getUniversityByName(@PathVariable String universityName) {
+        UniversityInfoDTO universityDTO = universityInfoService.getUniversityByName(universityName);
+        if (universityDTO != null) {
+            return ResponseEntity.ok(universityDTO);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @GetMapping
     @Operation(summary = "모든 대학교 목록 조회", description = "모든 대학교 정보를 조회합니다.")
