@@ -21,30 +21,20 @@ import java.util.stream.Collectors;
 @Tag(name = "University", description = "대학교 관련 API")
 public class UniversityController {
 
-    @Autowired
-    private UniversityInfoService universityInfoService;
+    private final UniversityInfoService universityInfoService;
+    private final UniversityInfoMapper universityInfoMapper;
 
     @Autowired
-    private UniversityInfoMapper universityInfoMapper;
-
-    @GetMapping("/university/{universityName}")
-    public ResponseEntity<UniversityInfoDTO> getUniversityByName(@PathVariable String universityName) {
-        UniversityInfoEntity universityEntity = universityInfoService.findUniversityByName(universityName);
-        if (universityEntity != null) {
-            UniversityInfoDTO universityDTO = universityInfoMapper.toDto(universityEntity);
-            return ResponseEntity.ok(universityDTO);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public UniversityController(UniversityInfoService universityInfoService, UniversityInfoMapper universityInfoMapper) {
+        this.universityInfoService = universityInfoService;
+        this.universityInfoMapper = universityInfoMapper;
     }
+
 
     @GetMapping
     @Operation(summary = "모든 대학교 목록 조회", description = "모든 대학교 정보를 조회합니다.")
     public ResponseEntity<List<UniversityInfoDTO>> getAllUniversities() {
-        List<UniversityInfoEntity> universityEntities = universityInfoService.getAllUniversities();
-        List<UniversityInfoDTO> universityDTOs = universityEntities.stream()
-                .map(universityInfoMapper::toDto)
-                .collect(Collectors.toList());
+        List<UniversityInfoDTO> universityDTOs = universityInfoService.getAllUniversities();
         return ResponseEntity.ok(universityDTOs);
     }
 }

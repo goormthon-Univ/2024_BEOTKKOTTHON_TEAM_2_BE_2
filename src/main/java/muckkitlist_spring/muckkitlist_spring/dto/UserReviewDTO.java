@@ -11,8 +11,8 @@ import muckkitlist_spring.muckkitlist_spring.entity.UserInfoEntity;
 @RequiredArgsConstructor
 public class UserReviewDTO {
   private final String userReviewId;
-  private final UserInfoEntity userInfo;
-  private final RestaurantInfoEntity restaurant;
+  private final UserInfoDTO userInfo;
+  private final RestaurantInfoDTO restaurant;
   private final double star;
   private final String writeTime;
   private final String details;

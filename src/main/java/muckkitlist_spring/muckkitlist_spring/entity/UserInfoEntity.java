@@ -38,4 +38,6 @@ public class UserInfoEntity {
   public void setUniversityEntity(UniversityInfoEntity university) {
     this.university=university;
   }
+
+
 }

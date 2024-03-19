@@ -1,12 +1,9 @@
 package muckkitlist_spring.muckkitlist_spring.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import muckkitlist_spring.muckkitlist_spring.dto.UserInfoDTO;
-import muckkitlist_spring.muckkitlist_spring.entity.UniversityInfoEntity;
-import muckkitlist_spring.muckkitlist_spring.entity.UserInfoEntity;
-import muckkitlist_spring.muckkitlist_spring.service.UniversityInfoService;
 import muckkitlist_spring.muckkitlist_spring.service.UserInfoService;
-import muckkitlist_spring.muckkitlist_spring.utility.UniversityInfoMapper;
-import muckkitlist_spring.muckkitlist_spring.utility.UserInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,63 +14,50 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "User", description = "사용자 관련 API")
 public class UserInfoController {
 
-    private final UniversityInfoService universityInfoService;
     private final UserInfoService userInfoService;
-    private final UserInfoMapper userInfoMapper;
 
-    private final UniversityInfoMapper universityInfoMapper;
     @Autowired
-    public UserInfoController(UniversityInfoService universityInfoService, UserInfoService userInfoService, UserInfoMapper userInfoMapper, UniversityInfoMapper universityInfoMapper) {
-        this.universityInfoService = universityInfoService;
+    public UserInfoController(UserInfoService userInfoService) {
         this.userInfoService = userInfoService;
-        this.userInfoMapper = userInfoMapper;
-        this.universityInfoMapper=universityInfoMapper;
     }
 
     @GetMapping
+    @Operation(summary = "모든 사용자 조회", description = "모든 사용자 정보를 조회합니다.")
     public ResponseEntity<List<UserInfoDTO>> getAllUsers() {
-        List<UserInfoEntity> users = userInfoService.getAllUsers();
-        List<UserInfoDTO> userDTOs = users.stream()
-                .map(userInfoMapper::toDTO)
-                .collect(Collectors.toList());
+        List<UserInfoDTO> userDTOs = userInfoService.getAllUsers();
         return ResponseEntity.ok(userDTOs);
     }
 
     @GetMapping("/{userId}")
+    @Operation(summary = "사용자 조회", description = "특정 사용자의 정보를 조회합니다.")
     public ResponseEntity<UserInfoDTO> getUserById(@PathVariable String userId) {
-        return userInfoService.getUserById(userId)
-                .map(userEntity -> ResponseEntity.ok(userInfoMapper.toDTO(userEntity)))
-                .orElse(ResponseEntity.notFound().build());
+        UserInfoDTO userDTO = userInfoService.getUserById(userId);
+        return userDTO != null ?
+                ResponseEntity.ok(userDTO) :
+                ResponseEntity.notFound().build();
     }
 
-    @PostMapping
-    public ResponseEntity<UserInfoDTO> createUser(@RequestBody UserInfoDTO userInfoDTO) {
-        UserInfoEntity userEntity = userInfoMapper.toEntity(userInfoDTO);
-        UniversityInfoEntity universityInfoEntity=universityInfoService.findUniversityByName(String.valueOf(userInfoDTO.getUniversity().getUniversityName()));
-        userEntity.setUniversityEntity(universityInfoEntity);
-        UserInfoEntity savedUserEntity = userInfoService.createUser(userEntity);
-        UserInfoDTO savedUserDTO = userInfoMapper.toDTO(savedUserEntity);
-        return new ResponseEntity<>(savedUserDTO, HttpStatus.CREATED);
+    @PostMapping("/{setUniversity}")
+    @Operation(summary = "사용자 생성", description = "새로운 사용자를 생성합니다.")
+    public ResponseEntity<UserInfoDTO> createUser(@RequestBody UserInfoDTO userInfoDTO,@PathVariable String setUniversity) {
+        UserInfoDTO createdUserDTO = userInfoService.createUser(userInfoDTO,setUniversity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUserDTO);
     }
 
-    //유저의 대학 정보를 변경
-    @PutMapping("/{userId}/{updateUniversity}")
-    public ResponseEntity<UserInfoDTO> updateUser(@PathVariable String userId,@PathVariable String updateUniversity, @RequestBody UserInfoDTO userInfoDTO) {
-        UserInfoEntity userEntity = userInfoMapper.toEntity(userInfoDTO);
-        UniversityInfoEntity universityInfoEntity;
-        universityInfoEntity=universityInfoService.findUniversityByName(updateUniversity);
-        UserInfoEntity updatedUserEntity = userInfoService.updateUserUniversity(userId, universityInfoEntity);
-        UserInfoDTO updatedUserDTO = userInfoMapper.toDTO(updatedUserEntity);
+    @PutMapping("/{userId}/{changeUniversity}")
+    @Operation(summary = "사용자 정보 수정", description = "특정 사용자의 정보를 수정합니다.")
+    public ResponseEntity<UserInfoDTO> updateUser(@PathVariable String userId,@PathVariable String changeUniversity, @RequestBody UserInfoDTO userInfoDTO) {
+        UserInfoDTO updatedUserDTO = userInfoService.updateUser(userId, changeUniversity,userInfoDTO);
         return ResponseEntity.ok(updatedUserDTO);
     }
 
     @DeleteMapping("/{userId}")
+    @Operation(summary = "사용자 삭제", description = "특정 사용자를 삭제합니다.")
     public ResponseEntity<Void> deleteUser(@PathVariable String userId) {
         userInfoService.deleteUser(userId);
         return ResponseEntity.noContent().build();
     }
 }
-
-

@@ -1,24 +1,28 @@
 package muckkitlist_spring.muckkitlist_spring.service;
 
 import lombok.RequiredArgsConstructor;
+import muckkitlist_spring.muckkitlist_spring.dto.UniversityInfoDTO;
 import muckkitlist_spring.muckkitlist_spring.entity.UniversityInfoEntity;
 import muckkitlist_spring.muckkitlist_spring.repository.UniversityInfoRepository;
+import muckkitlist_spring.muckkitlist_spring.utility.UniversityInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UniversityInfoService {
-    @Autowired
-    private UniversityInfoRepository universityInfoRepository;
 
-    public UniversityInfoEntity findUniversityByName(String universityName) {
-        return universityInfoRepository.findByUniversityName(universityName);
-    }
+    private final UniversityInfoRepository universityInfoRepository;
+    private final UniversityInfoMapper universityInfoMapper;
 
-    public List<UniversityInfoEntity> getAllUniversities() {
-        return universityInfoRepository.findAll();
+
+    public List<UniversityInfoDTO> getAllUniversities() {
+        List<UniversityInfoEntity> universityEntities = universityInfoRepository.findAll();
+        return universityEntities.stream()
+                .map(universityInfoMapper::toDto)
+                .collect(Collectors.toList());
     }
 }
