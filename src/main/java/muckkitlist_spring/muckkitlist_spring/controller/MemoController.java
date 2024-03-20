@@ -28,22 +28,31 @@ public class MemoController {
         return ResponseEntity.ok(memoDTOs);
     }
 
-    @GetMapping("/{memoId}")
+    @GetMapping("/{muckatListId}")
     @Operation(summary = "메모 조회", description = "특정 메모의 정보를 먹킷리스트id로 조회합니다.")
     public ResponseEntity<MemoDTO> getMemoById(@PathVariable String muckatListId) {
-        MemoDTO memoDTO = memoService.getMemoById(muckatListId);
+        MemoDTO memoDTO = memoService.getMemoByMuckatListId(muckatListId);
         return memoDTO != null ?
                 ResponseEntity.ok(memoDTO) :
                 ResponseEntity.notFound().build();
     }
 
-    @PostMapping
+    @PostMapping("/{muckatlistId}/{restaurantId}/{group}")
     @Operation(summary = "메모 생성", description = "새로운 메모를 생성합니다.")
-    public ResponseEntity<MemoDTO> createMemo(@RequestParam String muckatlistId, @RequestParam String restaurantId, @RequestParam boolean group) {
+    public ResponseEntity<MemoDTO> createMemo(@PathVariable String muckatlistId, @PathVariable String restaurantId, @PathVariable boolean group) {
         MemoDTO createdMemoDTO = memoService.createMemo(muckatlistId, restaurantId, group);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdMemoDTO);
     }
-/*
+
+    @PostMapping("/{muckatlistId}/{check}")
+    @Operation(summary = "메모 체크 업데이트", description = "메모장의 체크 여부를 업데이트해줍니다")
+    public ResponseEntity<MemoDTO> updateMemo(@PathVariable String muckatlistId, @PathVariable boolean check) {
+        MemoDTO updateMemo = memoService.updateMemo(muckatlistId,check);
+        return ResponseEntity.status(HttpStatus.CREATED).body(updateMemo);
+    }
+
+    /*
+
     @PutMapping("/{memoId}")
     @Operation(summary = "메모 수정", description = "특정 메모의 정보를 수정합니다.")
     public ResponseEntity<MemoDTO> updateMemo(@PathVariable String memoId, @RequestBody MemoDTO memoDTO) {

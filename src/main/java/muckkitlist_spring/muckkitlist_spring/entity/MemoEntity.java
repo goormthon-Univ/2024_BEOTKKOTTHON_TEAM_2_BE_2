@@ -4,6 +4,7 @@ package muckkitlist_spring.muckkitlist_spring.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 
 @Entity
@@ -21,10 +22,11 @@ public class MemoEntity {
   private RestaurantInfoEntity restaurant;
 
   @Column(name = "checks")
-  private boolean isCheck;
+  private boolean checks;
 
-  @Column(name = "isGroup")
-  private boolean isGroup;
+  @Setter
+  @Column(name = "group_check")
+  private boolean groups;
 
 
   public void setMuckatListId(String muckatlistId) {
@@ -35,11 +37,11 @@ public class MemoEntity {
     this.restaurant=restaurant;
   }
 
-  public void setIsChecked(boolean isCheck) {
-    this.isCheck=isCheck;
+  public void setIsChecked(boolean checks) {
+    this.checks=checks;
   }
 
-  public void setIsGroup(boolean isGroup) {
-    this.isGroup=isGroup;
+  public void setGroup(boolean groups) {
+    this.groups=groups;
   }
 }

@@ -50,7 +50,8 @@ public class MemoService {
             memoEntity.setMuckatListId(muckatlistId);
             memoEntity.setRestaurantId(restaurantInfoEntityOptional.get());
             memoEntity.setIsChecked(false);
-            memoEntity.setIsGroup(group);
+            System.out.println(group);
+            memoEntity.setGroup(group);
 
             // MemoDTO를 MemoEntity로 변환
             MemoDTO memoDTO = memoMapper.toDTO(memoEntity);
@@ -68,23 +69,31 @@ public class MemoService {
         }
     }
 
-/*
-    public MemoDTO updateMemo(String memoId, MemoDTO memoDTO) {
-        MemoEntity existingMemoEntity = memoRepository.findById(memoId)
-                .orElseThrow(() -> new IllegalArgumentException("Memo not found with ID: " + memoId));
+    public MemoDTO updateMemo(String muckatlistId, boolean check) {
+            // 해당 레스토랑 정보가 존재하는 경우에만 메모 엔터티를 업데이트합니다.
+            // 해당 muckatlistId에 해당하는 메모 엔터티를 가져옵니다.
+            Optional<MemoEntity> memoEntityOptional = Optional.ofNullable(memoRepository.findByMuckatListId(muckatlistId));
+            if (memoEntityOptional.isPresent()) {
+                // 메모 엔터티가 존재하는 경우에만 업데이트합니다.
+                MemoEntity memoEntity = memoEntityOptional.get();
+                // 업데이트할 내용 설정
+                memoEntity.setIsChecked(check);
+                // MemoEntity 저장
+                MemoEntity updatedMemoEntity = memoRepository.save(memoEntity);
+                // 업데이트된 MemoEntity를 MemoDTO로 변환하여 반환
+                return memoMapper.toDTO(updatedMemoEntity);
+            } else {
+                // 해당 muckatlistId에 해당하는 메모가 없는 경우에는 예외 처리
+                throw new IllegalArgumentException("Memo not found for muckatlistId: " + muckatlistId);
+            }
+        }
 
-        // Update existing memo entity
-        existingMemoEntity.setMuckatlistId(memoDTO.getMuckatlistId());
-        existingMemoEntity.setRestaurant(memoDTO.getRestaurant());
-        existingMemoEntity.setCheck(memoDTO.isCheck());
-        existingMemoEntity.setIsGroup(memoDTO.getIsGroup());
-
-        // Save updated memo entity
-        MemoEntity updatedMemoEntity = memoRepository.save(existingMemoEntity);
-        return memoMapper.toDTO(updatedMemoEntity);
-    }
-*/
     public void deleteMemo(String memoId) {
         memoRepository.deleteById(memoId);
+    }
+
+    public MemoDTO getMemoByMuckatListId(String muckatListId) {
+        MemoEntity memoEntity= memoRepository.findByMuckatListId(muckatListId);
+        return memoMapper.toDTO(memoEntity);
     }
 }
