@@ -9,7 +9,9 @@ import muckkitlist_spring.muckkitlist_spring.entity.RestaurantInfoEntity;
 @RequiredArgsConstructor
 public class MemoDTO {
   private final String muckatlistId;
-  private final String memoId;
-  private final RestaurantInfoEntity restaurant;
+  private final RestaurantInfoDTO restaurant;
+  private final boolean check;
+  private final boolean isGroup;
+
 
 }

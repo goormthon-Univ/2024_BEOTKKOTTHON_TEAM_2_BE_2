@@ -15,8 +15,35 @@ public interface UserReviewRepository extends JpaRepository<UserReviewEntity, St
     List<UserReviewEntity> findByUserReviewId(String userReviewId);
     List<UserReviewEntity> findByUserInfoUserId(String userId);
 
+    int countByRestaurantRestaurantId(String restaurantId);
+
     @Query("SELECT ur FROM UserReviewEntity ur WHERE ur.restaurant.restaurantId = :restaurantId")
     List<UserReviewEntity> findByRestaurantId(@Param("restaurantId") String restaurantId);
+
+    @Query("SELECT ur FROM UserReviewEntity ur WHERE ur.restaurant.restaurantId = :restaurantId ORDER BY ur.star ASC")
+    List<UserReviewEntity> findByRestaurantIdOrderByStarAsc(@Param("restaurantId") String restaurantId);
+
+    @Query("SELECT ur FROM UserReviewEntity ur WHERE ur.restaurant.restaurantId = :restaurantId ORDER BY ur.star DESC")
+    List<UserReviewEntity> findByRestaurantIdOrderByStarDESC(@Param("restaurantId") String restaurantId);
+
+    @Query("SELECT ur FROM UserReviewEntity ur WHERE ur.restaurant.restaurantId = :restaurantId ORDER BY ur.like_count ASC")
+    List<UserReviewEntity> findByRestaurantIdOrderByLikeCountASC(@Param("restaurantId") String restaurantId);
+    @Query("SELECT ur FROM UserReviewEntity ur WHERE ur.restaurant.restaurantId = :restaurantId ORDER BY ur.like_count DESC")
+    List<UserReviewEntity> findByRestaurantIdOrderByLikeCountDesc(@Param("restaurantId") String restaurantId);
+
+
+    @Query("SELECT ur FROM UserReviewEntity ur WHERE ur.restaurant.restaurantId = :restaurantId ORDER BY ur.writeTime ASC")
+    List<UserReviewEntity> findByRestaurantIdOrderByWriteTimeAsc(@Param("restaurantId") String restaurantId);
+
+
+
+    @Query("SELECT ur FROM UserReviewEntity ur WHERE ur.restaurant.restaurantId = :restaurantId ORDER BY ur.writeTime DESC")
+    List<UserReviewEntity> findByRestaurantIdOrderByWriteTimeDesc(@Param("restaurantId") String restaurantId);
+
+
+
+
+
 
 
     @Query("SELECT ur FROM UserReviewEntity ur " +

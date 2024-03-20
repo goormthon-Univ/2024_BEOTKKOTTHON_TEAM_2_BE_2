@@ -1,5 +1,6 @@
 package muckkitlist_spring.muckkitlist_spring.service;
 
+import jakarta.persistence.EntityManager;
 import muckkitlist_spring.muckkitlist_spring.dto.RestaurantInfoDTO;
 import muckkitlist_spring.muckkitlist_spring.dto.UserReviewDTO;
 import muckkitlist_spring.muckkitlist_spring.entity.RestaurantInfoEntity;
@@ -46,6 +47,31 @@ public class UserReviewService {
     }
 
 
+    public List<UserReviewDTO> getUserReviewsByRestaurantIdByStar(String restaurantId,String sortBy) {
+        List<UserReviewEntity> reviewEntities;
+        if(sortBy.equals("ASC")){
+            reviewEntities=reviewRepository.findByRestaurantIdOrderByStarAsc(restaurantId);
+        }
+        else{
+            reviewEntities=reviewRepository.findByRestaurantIdOrderByStarDESC(restaurantId);
+        }
+        return reviewEntities.stream().map(userReviewMapper::toDto).collect(Collectors.toList());
+
+    }
+
+    public List<UserReviewDTO> getUserReviewsByRestaurantIdByLikeCount(String restaurantId,String sortBy) {
+        List<UserReviewEntity> reviewEntities;
+        if(sortBy.equals("ASC")){
+            reviewEntities=reviewRepository.findByRestaurantIdOrderByLikeCountASC(restaurantId);
+        }
+        else{
+            reviewEntities=reviewRepository.findByRestaurantIdOrderByLikeCountDesc(restaurantId);
+        }
+        return reviewEntities.stream().map(userReviewMapper::toDto).collect(Collectors.toList());
+
+    }
+
+//리뷰를 생성한다면 가게의 리뷰카운트도1증가 리뷰를 삭제하면 리뷰카운트 1감소
     public UserReviewDTO createReview(String userReviewId, String userId, String restaurantId,
                                       double star, LocalDate writeTime, String details, String likeCount) {
         // 사용자 정보와 음식점 정보 가져오기
@@ -62,10 +88,15 @@ public class UserReviewService {
             reviewEntity.setStar(star);
             reviewEntity.setWriteTime(writeTime.toString());
             reviewEntity.setDetails(details);
-            reviewEntity.setLike_count(likeCount);
+            reviewEntity.setLike_count(Integer.parseInt(likeCount));
 
             // 리뷰 저장
             UserReviewEntity createReviewEntity = reviewRepository.save(reviewEntity);
+            int reviewCount = reviewRepository.countByRestaurantRestaurantId(restaurantId);
+            restaurantInfoEntityOptional.get().setReviewCount(reviewCount);
+            restaurantInfoRepository.save(restaurantInfoEntityOptional.get());
+
+            System.out.println(reviewCount);
 
             // DTO로 변환하여 반환
             return userReviewMapper.toDto(createReviewEntity);
@@ -79,7 +110,27 @@ public class UserReviewService {
 
 
     public void deleteUserReview(String userReviewId) {
-        reviewRepository.deleteById(userReviewId);
+        // 삭제할 리뷰 정보 가져오기
+        Optional<UserReviewEntity> reviewEntityOptional = reviewRepository.findById(userReviewId);
+
+        // 리뷰가 존재하는 경우에만 삭제 및 업데이트 진행
+        if (reviewEntityOptional.isPresent()) {
+            UserReviewEntity reviewEntity = reviewEntityOptional.get();
+            String restaurantId = reviewEntity.getRestaurant().getRestaurantId();
+
+            // 리뷰 삭제
+            reviewRepository.deleteById(userReviewId);
+
+            // 음식점 리뷰 개수 업데이트
+            int reviewCount = reviewRepository.countByRestaurantRestaurantId(restaurantId);
+            Optional<RestaurantInfoEntity> restaurantInfoOptional = restaurantInfoRepository.findById(restaurantId);
+            restaurantInfoOptional.ifPresent(restaurantInfo -> {
+                restaurantInfo.setReviewCount(reviewCount);
+                restaurantInfoRepository.save(restaurantInfo);
+            });
+        } else {
+            throw new IllegalArgumentException("Review not found");
+        }
     }
 
     public List<UserReviewDTO> getUserReviewsByRestaurantId(String restaurantId) {

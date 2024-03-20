@@ -33,15 +33,11 @@ public class UserReviewEntity {
   private String details;
 
   @Column(name = "like_count")
-  private String like_count;
+  private int like_count;
 
   public void setUserId(UserInfoEntity userInfo) {
     this.userInfo=userInfo;
   }
-  public void setRestaurantId(RestaurantInfoEntity restaurant) {
-    this.restaurant=restaurant;
-  }
-
 
   public void setUserReviewId(String userReviewId) {
     this.userReviewId=userReviewId;
@@ -63,7 +59,7 @@ public class UserReviewEntity {
     this.writeTime=writeTime;
   }
 
-  public void setLike_count(String like_count) {
+  public void setLike_count(int like_count) {
     this.like_count=like_count;
   }
 

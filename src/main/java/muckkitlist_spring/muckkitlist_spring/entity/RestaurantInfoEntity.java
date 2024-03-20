@@ -35,6 +35,10 @@ public class RestaurantInfoEntity {
 
   @Column(name = "category")
   private String category;
+
+    public void setReviewCount(int reviewCount) {
+      this.reviewCount=reviewCount;
+    }
 }
 
 
