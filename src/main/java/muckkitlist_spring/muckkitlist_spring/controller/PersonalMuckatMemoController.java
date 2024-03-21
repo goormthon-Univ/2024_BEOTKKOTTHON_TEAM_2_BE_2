@@ -25,12 +25,12 @@ public class PersonalMuckatMemoController {
     public PersonalMuckatMemoDTO createPersonalMuckatMemo(@RequestBody PersonalMuckatMemoDTO personalMuckatMemoDTO) {
         return personalMuckatMemoService.createPersonalMuckatMemo(personalMuckatMemoDTO);
     }
-/*
-    @GetMapping("/by-restaurant")
-    public List<PersonalMuckatMemo> getMemosByRestaurant(@RequestParam RestaurantInfoEntity restaurantInfoEntity) {
-        return personalMuckatMemoService.getMemosByRestaurant(restaurantInfoEntity);
+
+    @GetMapping("/search")
+    public PersonalMuckatMemoDTO getMemosByRestaurant(@RequestParam PersonalMuckatMemoDTO personalMuckatMemoDTO) {
+        return personalMuckatMemoService.getMemosByDTO(personalMuckatMemoDTO);
     }
-*/
+
     @DeleteMapping("/delete")
     public void deletePersonalMuckatMemo(@RequestBody PersonalMuckatMemoDTO personalMuckatMemoDTO) {
         personalMuckatMemoService.deletePersonalMuckatMemo(personalMuckatMemoDTO);

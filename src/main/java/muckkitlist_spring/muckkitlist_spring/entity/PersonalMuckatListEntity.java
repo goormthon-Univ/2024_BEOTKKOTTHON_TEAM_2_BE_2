@@ -20,7 +20,7 @@ public class PersonalMuckatListEntity {
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
   @OnDelete(action = OnDeleteAction.CASCADE)
   @JoinColumn(name = "kakao_id")
-  private UserInfoEntity user;
+  private UserInfoEntity kakaoId;
 
   @Column(name = "personal_name")
   private String personalName;

@@ -9,6 +9,7 @@ import muckkitlist_spring.muckkitlist_spring.repository.PersonalMuckatMemoReposi
 import muckkitlist_spring.muckkitlist_spring.repository.RestaurantInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,12 +49,30 @@ public class PersonalMuckatMemoService {
         }
         return null;
     }
-/*
-    public PersonalMuckatMemoDTO getMemosByPersonalMuckatListAnd(PersonalMuckatMemoDTO personalMuckatMemoDTO) {
-        List<PersonalMuckatMemo> memos = personalMuckatMemoRepository.findByPersonalMuckatListEntity();
-        return
+
+    public PersonalMuckatMemoDTO getMemosByDTO(PersonalMuckatMemoDTO personalMuckatMemoDTO) {
+        Optional<PersonalMuckatListEntity> personalMuckatListEntity = personalMuckatListRepository.findById(personalMuckatMemoDTO.getPersonalMuckatId());
+        if (personalMuckatListEntity.isPresent()) {
+            List<PersonalMuckatMemo> memos = personalMuckatMemoRepository.findByPersonalMuckatListEntity(personalMuckatListEntity.get());
+            Optional<PersonalMuckatMemo> selectedMemo = memos.stream()
+                    .filter(memo -> memo.getRestaurantInfoEntity().getRestaurantId().equals(personalMuckatMemoDTO.getRestaurantId()))
+                    .findFirst();
+
+            if (selectedMemo.isPresent()) {
+                // PersonalMuckatMemoDTO로 변환하여 반환
+                return new PersonalMuckatMemoDTO(personalMuckatMemoDTO.getRestaurantId(),personalMuckatListEntity.get().getPersonalMuckatId());
+
+            } else {
+                // 해당하는 메모가 없는 경우 null 반환
+                return null;
+            }
+        } else {
+            // personalMuckatId에 해당하는 PersonalMuckatListEntity가 없는 경우 예외처리
+            throw new NotFoundException("PersonalMuckatListEntity not found with id: " + personalMuckatMemoDTO.getPersonalMuckatId());
+        }
     }
-*/
+
+
     public void deletePersonalMuckatMemo(PersonalMuckatMemoDTO personalMuckatMemoDto) {
         Optional<RestaurantInfoEntity> restaurantInfoEntity = restaurantInfoRepository.findById(personalMuckatMemoDto.getRestaurantId());
         Optional<PersonalMuckatListEntity> personalMuckatListEntity = personalMuckatListRepository.findById(personalMuckatMemoDto.getPersonalMuckatId());
