@@ -3,6 +3,8 @@ package muckkitlist_spring.muckkitlist_spring.entity;
 import lombok.Getter;
 import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Optional;
 
@@ -16,10 +18,12 @@ public class UserReviewEntity {
   private String userReviewId;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "user_id")
+  @OnDelete(action = OnDeleteAction.CASCADE)
+  @JoinColumn(name = "kakao_id")
   private UserInfoEntity userInfo;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   @JoinColumn(name = "restaurant_id")
   private RestaurantInfoEntity restaurant;
 

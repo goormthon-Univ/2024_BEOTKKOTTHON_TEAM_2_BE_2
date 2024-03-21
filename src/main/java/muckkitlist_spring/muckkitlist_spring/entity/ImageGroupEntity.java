@@ -20,6 +20,7 @@ public class ImageGroupEntity {
   private String imageGroupId;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   @JoinColumn(name = "groupmuckat_id")
   private GroupMuckatListEntity groupMuckatListEntity;
 

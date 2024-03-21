@@ -1,6 +1,8 @@
 package muckkitlist_spring.muckkitlist_spring.service;
 
+import muckkitlist_spring.muckkitlist_spring.dto.UserInfoClientDTO;
 import muckkitlist_spring.muckkitlist_spring.dto.UserInfoDTO;
+import muckkitlist_spring.muckkitlist_spring.entity.UniversityInfoEntity;
 import muckkitlist_spring.muckkitlist_spring.entity.UserInfoEntity;
 import muckkitlist_spring.muckkitlist_spring.repository.UniversityInfoRepository;
 import muckkitlist_spring.muckkitlist_spring.repository.UserInfoRepository;
@@ -37,27 +39,55 @@ public class UserInfoService {
     }
 
 
-    public UserInfoDTO createUser(UserInfoDTO userInfoDTO,String setUniversity) {
-        UserInfoEntity userInfoEntity = userInfoMapper.toEntity(userInfoDTO);
-
-        userInfoEntity.setUniversityEntity(universityInfoRepository.findByUniversityName(setUniversity));
+    public UserInfoClientDTO createUser(UserInfoClientDTO userInfoClientDTO) {
+        UniversityInfoEntity universityInfoEntity = universityInfoRepository.findByUniversityName(userInfoClientDTO.getUniversityName());
+        UserInfoEntity userInfoEntity = new UserInfoEntity();
+        userInfoEntity.setKakaoId(userInfoClientDTO.getKakaoId());
+        userInfoEntity.setUniversity(universityInfoEntity);
+        userInfoEntity.setUserId(userInfoClientDTO.getUserId());
+        userInfoEntity.setPoint(0);
+        userInfoEntity.setFcmToken(userInfoClientDTO.getFcmToken());
 
         UserInfoEntity savedEntity = userInfoRepository.save(userInfoEntity);
-        return userInfoMapper.toDTO(savedEntity);
+
+        return new UserInfoClientDTO(savedEntity.getKakaoId(), savedEntity.getUserId(),
+                savedEntity.getUniversity().getUniversityName(),
+                savedEntity.getPoint(), savedEntity.getFcmToken());
     }
 
-    public UserInfoDTO updateUser(String userId, String changeUniversity,UserInfoDTO userInfoDTO) {
-        Optional<UserInfoEntity> userEntityOptional = userInfoRepository.findById(userId);
+    public UserInfoClientDTO updateUserUniversity(UserInfoClientDTO userInfoClientDTO) {
+
+        Optional<UserInfoEntity> userInfoEntity = userInfoRepository.findById(userInfoClientDTO.getKakaoId());
+        if(userInfoEntity.isPresent()){
+            UniversityInfoEntity universityInfoEntity = universityInfoRepository.findByUniversityName(userInfoClientDTO.getUniversityName());
+            UserInfoEntity userInfoEntity1=userInfoEntity.get();
+            userInfoEntity1.setUniversityEntity(universityInfoEntity);
+            UserInfoEntity updatedEntity = userInfoRepository.save(userInfoEntity1);
+            return
+                    new UserInfoClientDTO(updatedEntity.getKakaoId(), updatedEntity.getUserId(),
+                            updatedEntity.getUniversity().getUniversityName(),
+                            updatedEntity.getPoint(), updatedEntity.getFcmToken());
+        }
+        return null;
+        }
+
+
+/*
+
+    public UserInfoDTO updateUserName(UserInfoDTO userInfoDTO, String userName) {
+        Optional<UserInfoEntity> userEntityOptional = userInfoRepository.findById(userInfoDTO.getUserId());
         if (userEntityOptional.isPresent()) {
             UserInfoEntity userInfoEntity = userEntityOptional.get();
-            userInfoEntity.setUniversityEntity(universityInfoRepository.findByUniversityName(changeUniversity)
-            );
+            userInfoEntity.setUserId(userName);
             UserInfoEntity updatedEntity = userInfoRepository.save(userInfoEntity);
             return userInfoMapper.toDTO(updatedEntity);
+
         } else {
             return null; // 사용자가 존재하지 않을 경우 예외처리 혹은 적절한 응답 반환
         }
     }
+
+*/
 
     public void deleteUser(String userId) {
         userInfoRepository.deleteById(userId);

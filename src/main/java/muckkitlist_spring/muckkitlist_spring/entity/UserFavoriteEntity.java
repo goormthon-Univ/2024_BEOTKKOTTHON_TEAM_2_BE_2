@@ -20,10 +20,13 @@ public class UserFavoriteEntity {
   private Long heart_id;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   @JoinColumn(name = "restaurant_id")
+
   private RestaurantInfoEntity restaurantInfoEntity;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "user_id")
+  @OnDelete(action = OnDeleteAction.CASCADE)
+  @JoinColumn(name = "kakao_id")
   private UserInfoEntity userInfoEntity;
 }

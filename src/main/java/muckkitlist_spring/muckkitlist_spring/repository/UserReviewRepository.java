@@ -14,6 +14,7 @@ import java.util.List;
 public interface UserReviewRepository extends JpaRepository<UserReviewEntity, String> {
     List<UserReviewEntity> findByUserReviewId(String userReviewId);
     List<UserReviewEntity> findByUserInfoUserId(String userId);
+    List<UserReviewEntity> findByUserInfoKakaoId(String kakaoId);
 
     int countByRestaurantRestaurantId(String restaurantId);
 
@@ -47,9 +48,11 @@ public interface UserReviewRepository extends JpaRepository<UserReviewEntity, St
 
 
     @Query("SELECT ur FROM UserReviewEntity ur " +
-            "WHERE ur.userInfo.userId = :userId " +
+            "WHERE ur.userInfo.kakaoId = :userId " +
             "AND ur.restaurant.restaurantId = :restaurantId")
-    List<UserReviewEntity> findByUserInfoUserIdAndRestaurantInfoRestaurantId(
+    List<UserReviewEntity> findByUserInfoKakaoIdAndRestaurantInfoRestaurantId(
             @Param("userId") String userId,
             @Param("restaurantId") String restaurantId
-    );}
+    );
+
+}

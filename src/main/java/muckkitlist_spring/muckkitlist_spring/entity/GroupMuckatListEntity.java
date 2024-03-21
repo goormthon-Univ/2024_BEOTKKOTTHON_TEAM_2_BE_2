@@ -13,16 +13,17 @@ import org.hibernate.annotations.OnDeleteAction;
 @RequiredArgsConstructor
 public class GroupMuckatListEntity {
   @Id
-  @Column(name = "groupmuckat_id")
+  @Column(name = "group_muckat_id")
   private String groupmuckatId;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "user_id")
+  @OnDelete(action = OnDeleteAction.CASCADE)
+  @JoinColumn(name = "kakao_id")
   private UserInfoEntity user;
 
   @Column(name = "group_name")
   private String groupName;
 
   @Column(name = "room_master")
-  private byte roomMaster;
+  private boolean roomMaster;
 }

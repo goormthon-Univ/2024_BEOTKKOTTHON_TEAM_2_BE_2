@@ -21,12 +21,9 @@ public class ImagePersonalEntity {
   private String imagePersonalId;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   @JoinColumn(name = "personal_muckat_id")
   private PersonalMuckatListEntity personalMuckatListEntity;
-
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "user_id")
-  private UserInfoEntity userInfoEntity;
 
   @Column(name= "timestamp")
   private LocalDate timestamp;

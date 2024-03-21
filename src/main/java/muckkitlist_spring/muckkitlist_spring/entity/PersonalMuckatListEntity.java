@@ -10,6 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Table(name = "personal_muckat_list")
 @Getter
+
 @RequiredArgsConstructor
 public class PersonalMuckatListEntity {
   @Id
@@ -17,7 +18,8 @@ public class PersonalMuckatListEntity {
   private String personalMuckatId;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "user_id")
+  @OnDelete(action = OnDeleteAction.CASCADE)
+  @JoinColumn(name = "kakao_id")
   private UserInfoEntity user;
 
   @Column(name = "personal_name")
