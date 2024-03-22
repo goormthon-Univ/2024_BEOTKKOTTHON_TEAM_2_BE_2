@@ -2,6 +2,7 @@ package muckkitlist_spring.muckkitlist_spring.controller;
 
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import muckkitlist_spring.muckkitlist_spring.dto.UserReviewClientDTO;
 import muckkitlist_spring.muckkitlist_spring.dto.UserReviewDTO;
 import muckkitlist_spring.muckkitlist_spring.service.UserReviewService;
@@ -18,6 +19,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/reviews")
+@Tag(name = "REVIEW", description = "리뷰 관련 API")
+
 public class ReviewController {
 
     private final UserReviewService reviewService;
@@ -83,13 +86,28 @@ public class ReviewController {
     }
 
     @PostMapping("/update")
-    @Operation(summary = "특정 리뷰 업데이트", description = "리뷰id를 통해 특정 리뷰를 업데이트합니다")
+    @Operation(summary = "특정 리뷰 업데이트", description = "리뷰id를 통해 특정 리뷰를 업데이트합니다.유저리뷰id와 star그리고 세부사항이 필요합니다.")
     public ResponseEntity<List<UserReviewClientDTO>> updateUserReviewsByUserIdAndRestaurantId(
             @RequestBody UserReviewClientDTO updatedReviewDTO
     ) {
         UserReviewClientDTO updatedReviews = reviewService.updateUserReview(updatedReviewDTO);
         return ResponseEntity.ok(Collections.singletonList(updatedReviews));
     }
+
+    @PostMapping("/update/like-count")
+    @Operation(summary = "특정 리뷰 업데이트", description = "리뷰id를 통해 특정 리뷰에 대한 좋아요(like_count)를 업데이트합니다.유저리뷰id와 ")
+    public ResponseEntity<List<UserReviewClientDTO>> updateLikeCount(
+            @RequestBody UserReviewClientDTO updatedReviewDTO
+    ) {
+        UserReviewClientDTO updatedReviews = reviewService.updateUserReview(updatedReviewDTO);
+        return ResponseEntity.ok(Collections.singletonList(updatedReviews));
+    }
+
+
+
+
+
+
 
     @PostMapping("/create")
     @Operation(summary = "리뷰 생성", description = "리뷰를 생성합니다.")

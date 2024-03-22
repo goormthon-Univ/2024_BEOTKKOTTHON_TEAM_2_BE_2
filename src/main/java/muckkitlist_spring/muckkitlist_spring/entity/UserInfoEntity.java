@@ -19,6 +19,7 @@ public class UserInfoEntity {
   @Id
   @Column(name = "kakao_id")
   private String kakaoId;
+
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
   @JoinColumn(name = "university_name")
   @OnDelete(action = OnDeleteAction.CASCADE)
@@ -29,9 +30,6 @@ public class UserInfoEntity {
 
   @Column(name = "fcm_token")
   private String fcmToken;
-
-  @Column(name = "point")
-  private int point;
 
   public void setUserId(String userId) {
     this.userId = userId;

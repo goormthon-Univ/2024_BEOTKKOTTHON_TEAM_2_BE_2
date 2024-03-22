@@ -45,14 +45,12 @@ public class UserInfoService {
         userInfoEntity.setKakaoId(userInfoClientDTO.getKakaoId());
         userInfoEntity.setUniversity(universityInfoEntity);
         userInfoEntity.setUserId(userInfoClientDTO.getUserId());
-        userInfoEntity.setPoint(0);
         userInfoEntity.setFcmToken(userInfoClientDTO.getFcmToken());
 
         UserInfoEntity savedEntity = userInfoRepository.save(userInfoEntity);
 
         return new UserInfoClientDTO(savedEntity.getKakaoId(), savedEntity.getUserId(),
-                savedEntity.getUniversity().getUniversityName(),
-                savedEntity.getPoint(), savedEntity.getFcmToken());
+                savedEntity.getUniversity().getUniversityName(), savedEntity.getFcmToken());
     }
 
     public UserInfoClientDTO updateUserUniversity(UserInfoClientDTO userInfoClientDTO) {
@@ -66,7 +64,7 @@ public class UserInfoService {
             return
                     new UserInfoClientDTO(updatedEntity.getKakaoId(), updatedEntity.getUserId(),
                             updatedEntity.getUniversity().getUniversityName(),
-                            updatedEntity.getPoint(), updatedEntity.getFcmToken());
+                             updatedEntity.getFcmToken());
         }
         return null;
         }

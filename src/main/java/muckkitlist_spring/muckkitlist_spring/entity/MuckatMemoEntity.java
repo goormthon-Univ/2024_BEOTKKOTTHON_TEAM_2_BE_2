@@ -3,16 +3,16 @@ package muckkitlist_spring.muckkitlist_spring.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import muckkitlist_spring.muckkitlist_spring.utility.PersonalMuckatMemoComposite;
+import muckkitlist_spring.muckkitlist_spring.utility.MuckatMemoComposite;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Table(name = "personal_muckat_memo")
+@Table(name = "muckat_memo")
 @Setter
 @Getter
-@IdClass(PersonalMuckatMemoComposite.class)
-public class PersonalMuckatMemo {
+@IdClass(MuckatMemoComposite.class)
+public class MuckatMemoEntity {
     @Id
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
@@ -21,7 +21,15 @@ public class PersonalMuckatMemo {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "personal_muckat_id")
+    @JoinColumn(name = "muckat_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private PersonalMuckatListEntity personalMuckatListEntity;
+    private MuckatListEntity muckatListEntity;
+
+    @Column(name= "is_check")
+    private boolean isCheck;
+
+
+    public void setIsCheck(boolean isCheck) {
+        this.isCheck=isCheck;
+    }
 }

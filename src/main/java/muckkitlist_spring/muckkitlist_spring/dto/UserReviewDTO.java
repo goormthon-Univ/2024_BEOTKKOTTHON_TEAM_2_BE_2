@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import muckkitlist_spring.muckkitlist_spring.entity.RestaurantInfoEntity;
 import muckkitlist_spring.muckkitlist_spring.entity.UserInfoEntity;
 
+import java.time.LocalDate;
+
 
 @Data
 @RequiredArgsConstructor
@@ -14,7 +16,7 @@ public class UserReviewDTO {
   private final UserInfoDTO userInfo;
   private final RestaurantInfoDTO restaurant;
   private final double star;
-  private final String writeTime;
+  private final LocalDate writeTime;
   private final String details;
   private final int like_count;
 

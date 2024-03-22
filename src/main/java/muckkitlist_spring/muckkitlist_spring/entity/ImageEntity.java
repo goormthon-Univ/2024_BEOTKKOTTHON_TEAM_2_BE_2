@@ -12,25 +12,19 @@ import java.time.LocalDate;
 
 
 @Entity
-@Table(name = "personal_muckat_schedule")
+@Table(name = "image")
 @Getter
 @RequiredArgsConstructor
-public class PersonalMuckatScheduleEntity {
+public class ImageEntity {
   @Id
-  @Column(name = "schedule_id")
-  private String scheduleId;
+  @Column(name = "image_id")
+  private String imageId;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
   @OnDelete(action = OnDeleteAction.CASCADE)
-  @JoinColumn(name = "restaurant_id")
-  private RestaurantInfoEntity restaurantInfoEntity;
+  @JoinColumn(name = "muckat_id")
+  private MuckatListEntity muckatListEntity;
 
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @OnDelete(action = OnDeleteAction.CASCADE)
-  @JoinColumn(name = "personal_muckat_id")
-  private PersonalMuckatListEntity personalMuckatListEntity;
-
-  @Column(name="timestamp")
+  @Column(name= "timestamp")
   private LocalDate timestamp;
-
 }

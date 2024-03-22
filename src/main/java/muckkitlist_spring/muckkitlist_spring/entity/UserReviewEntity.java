@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Entity
@@ -31,7 +32,7 @@ public class UserReviewEntity {
   private double star;
 
   @Column(name = "write_time")
-  private String writeTime;
+  private LocalDate writeTime;
 
   @Column(name = "details")
   private String details;
@@ -55,11 +56,7 @@ public class UserReviewEntity {
     this.restaurant=restaurant;
   }
 
-  public void setStar(double star) {
-    this.star=star;
-  }
-
-  public void setWriteTime(String writeTime) {
+  public void setWriteTime(LocalDate writeTime) {
     this.writeTime=writeTime;
   }
 
@@ -69,5 +66,9 @@ public class UserReviewEntity {
 
   public void setDetails(String details) {
     this.details=details;
+  }
+
+  public void setStar(double star) {
+    this.star=star;
   }
 }
