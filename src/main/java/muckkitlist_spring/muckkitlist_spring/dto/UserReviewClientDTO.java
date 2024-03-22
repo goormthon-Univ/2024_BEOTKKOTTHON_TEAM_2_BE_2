@@ -10,6 +10,7 @@ import java.time.LocalDate;
 public class UserReviewClientDTO {
     private final String userReviewId;
     private final String kakaoId;
+    private final String userId;
     private final String restaurantName;
     private final double star;
     private final LocalDate writeTime;

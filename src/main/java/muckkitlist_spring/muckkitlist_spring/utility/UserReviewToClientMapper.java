@@ -10,6 +10,7 @@ public class UserReviewToClientMapper {
         return new UserReviewClientDTO(
                 userReviewDTO.getUserReviewId(),
                 userReviewDTO.getUserInfo().getKakaoId(),
+                userReviewDTO.getUserInfo().getUserId(),
                 userReviewDTO.getRestaurant().getRestaurantName(),
                 userReviewDTO.getStar(),
                 userReviewDTO.getWriteTime(),

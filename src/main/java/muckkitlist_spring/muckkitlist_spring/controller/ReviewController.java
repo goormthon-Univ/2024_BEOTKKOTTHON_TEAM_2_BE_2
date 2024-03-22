@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import muckkitlist_spring.muckkitlist_spring.dto.UserReviewClientDTO;
 import muckkitlist_spring.muckkitlist_spring.dto.UserReviewDTO;
 import muckkitlist_spring.muckkitlist_spring.service.UserReviewService;
+import muckkitlist_spring.muckkitlist_spring.utility.AscAndDesc;
+import muckkitlist_spring.muckkitlist_spring.utility.SortStandard;
 import muckkitlist_spring.muckkitlist_spring.utility.UserReviewMapper;
 import muckkitlist_spring.muckkitlist_spring.utility.UserReviewToClientMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +42,10 @@ public class ReviewController {
     }
 
 
-    @GetMapping("/{userId}")
+    @GetMapping("/{kakaoId}")
     @Operation(summary = "모든 리뷰", description = "유저 아이디로 쓴 모든 리뷰를 조회합니다.")
-    public ResponseEntity<List<UserReviewClientDTO>> getUserReviews(@PathVariable String userId) {
-        List<UserReviewClientDTO> userReviews = reviewService.getUserReviewsByUserId(userId);
+    public ResponseEntity<List<UserReviewClientDTO>> getUserReviews(@PathVariable String kakaoId) {
+        List<UserReviewClientDTO> userReviews = reviewService.getUserReviewsByUserId(kakaoId);
         return ResponseEntity.ok(userReviews);
     }
 /*
@@ -54,10 +56,10 @@ public class ReviewController {
         return ResponseEntity.ok(userReviews);
     }
 */
-    @GetMapping("/{userId}/{restaurantId}")
+    @GetMapping("/{kakaoId}/{restaurantId}")
     @Operation(summary = "특정 맛집에 특정 유저가 작성한 리뷰", description = "특정 맛집에 특정 유저가 작성한 리뷰를 모두 받아옵니다.")
-    public ResponseEntity<List<UserReviewClientDTO>> getUserReviewsByUserIdAndRestaurantId(@PathVariable String userId, @PathVariable String restaurantId) {
-        List<UserReviewClientDTO> userReviews = reviewService.getUserReviewsByUserIdAndRestaurantId(userId,restaurantId);
+    public ResponseEntity<List<UserReviewClientDTO>> getUserReviewsByUserIdAndRestaurantId(@PathVariable String kakaoId, @PathVariable String restaurantId) {
+        List<UserReviewClientDTO> userReviews = reviewService.getUserReviewsByUserIdAndRestaurantId(kakaoId,restaurantId);
         return ResponseEntity.ok(userReviews);
     }
 
@@ -65,22 +67,22 @@ public class ReviewController {
     @Operation(summary = "특정 맛집에 쓴 리뷰", description = "해당 맛집에 작성된 리뷰를 어떤 방식으로 정렬하여 받아옵니다.")
     public ResponseEntity<List<UserReviewClientDTO>> getUserReviewsByRestaurantId(
             @PathVariable String restaurantId,
-            @PathVariable String selectStandard,
-            @PathVariable String sortBy) {
+            @PathVariable SortStandard selectStandard,
+            @PathVariable AscAndDesc sortBy) {
         List<UserReviewClientDTO> userReviews;
-        if (selectStandard.equals("star")) {
-            userReviews = sortBy.equals("ASC") ?
-                    reviewService.getUserReviewsByRestaurantIdByStar(restaurantId, "ASC") :
-                    reviewService.getUserReviewsByRestaurantIdByStar(restaurantId, "DESC");
-        } else if (selectStandard.equals("like_count")) {
-            userReviews = sortBy.equals("ASC") ?
-                    reviewService.getUserReviewsByRestaurantIdByLikeCount(restaurantId, "ASC") :
-                   reviewService.getUserReviewsByRestaurantIdByLikeCount(restaurantId, "DESC");
+        if (selectStandard.equals(SortStandard.STAR)) {
+            userReviews = sortBy.equals(AscAndDesc.ASC) ?
+                    reviewService.getUserReviewsByRestaurantIdByStar(restaurantId, AscAndDesc.ASC) :
+                    reviewService.getUserReviewsByRestaurantIdByStar(restaurantId, AscAndDesc.DESC);
+        } else if (selectStandard.equals(SortStandard.REVIEWCOUNT)) {
+            userReviews = sortBy.equals(AscAndDesc.ASC) ?
+                    reviewService.getUserReviewsByRestaurantIdByLikeCount(restaurantId, AscAndDesc.ASC) :
+                   reviewService.getUserReviewsByRestaurantIdByLikeCount(restaurantId, AscAndDesc.DESC);
         }
-        else if (selectStandard.equals("writeTime")) {
-            userReviews = sortBy.equals("ASC") ?
-                    reviewService.getUserReviewsByRestaurantIdByWriteTime(restaurantId, "ASC") :
-                    reviewService.getUserReviewsByRestaurantIdByWriteTime(restaurantId, "DESC");
+        else if (selectStandard.equals(SortStandard.REVIEWDATE)) {
+            userReviews = sortBy.equals(AscAndDesc.ASC) ?
+                    reviewService.getUserReviewsByRestaurantIdByWriteTime(restaurantId, AscAndDesc.ASC) :
+                    reviewService.getUserReviewsByRestaurantIdByWriteTime(restaurantId, AscAndDesc.DESC);
         }
 
         else {

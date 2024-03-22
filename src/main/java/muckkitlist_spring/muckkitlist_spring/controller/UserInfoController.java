@@ -49,7 +49,7 @@ public class UserInfoController {
     }
 
 
-    @PutMapping("/changeUniversity")
+    @PutMapping("/change-university")
     @Operation(summary = "사용자 정보 수정", description = "특정 사용자의 대학교 정보를 수정합니다.")
     public ResponseEntity<UserInfoClientDTO> updateUserUniversity(@RequestBody UserInfoClientDTO userInfoDTO) {
         UserInfoClientDTO updatedUserDTO = userInfoService.updateUserUniversity(userInfoDTO);

@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/schedule")
 @Tag(name = "Schedule", description = "스케줄 관련 API")
@@ -30,19 +32,20 @@ public class MuckatScheduleController {
         return new ResponseEntity<>(savedSchedule, HttpStatus.CREATED);
     }
 
+    @GetMapping("/search/{muckatUUID}")
+    @Operation(summary = "스케줄 서치", description = "먹킷리스트id를 바탕으로 스케줄에 대한 uuid값을 조회합니다. 이를 바탕으로 업데이트 등에 사용 가능합니다.")
+    public ResponseEntity<List<PersonalMuckatScheduleDTO>> searchScheduleByUuid(@PathVariable String muckatUUID ) {
+        List<PersonalMuckatScheduleDTO> searchResults = scheduleService.searchByUUID(muckatUUID);
+        return new ResponseEntity<>(searchResults, HttpStatus.CREATED);
+    }
+
     @PostMapping("/update")
     @Operation(summary = "업데이트", description = "특정 스케줄을 업데이트합니다.필요 데이터:스케줄 아이디,식당 아이디" +
-            " 날짜.")
+            " 날짜(ex 2022-03-03).")
     public ResponseEntity<PersonalMuckatScheduleDTO> updateSchedule(@RequestBody PersonalMuckatScheduleDTO schedule) {
         PersonalMuckatScheduleDTO savedSchedule = scheduleService.updateSchedule(schedule);
         return new ResponseEntity<>(savedSchedule, HttpStatus.CREATED);
     }
-
-
-    
-
-
-
 
     // 개인 먹잇감 스케줄 삭제
     @DeleteMapping("/delete/{scheduleId}")

@@ -32,4 +32,8 @@ public class MuckatMemoEntity {
     public void setIsCheck(boolean isCheck) {
         this.isCheck=isCheck;
     }
+
+    public boolean getChecks() {
+        return isCheck;
+    }
 }

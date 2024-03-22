@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonalMuckatScheduleService {
@@ -76,6 +78,24 @@ public class PersonalMuckatScheduleService {
     }
 
 
+    public List<PersonalMuckatScheduleDTO> searchByUUID(String schedule) {
+        List<MuckatScheduleEntity> muckatScheduleEntities = scheduleRepository.findByMuckatId(schedule);
+
+        List<PersonalMuckatScheduleDTO> dtos = muckatScheduleEntities.stream()
+                .map(entity -> new PersonalMuckatScheduleDTO(
+                        entity.getScheduleId(),
+                        entity.getMuckatListEntity().getMuckatId(),
+                        entity.getRestaurantInfoEntity().getRestaurantId(),
+                        entity.getTimestamp()
+                ))
+                .collect(Collectors.toList());
+
+
+        return dtos; // 결과 반환
+    }
+
+
+
 
 
 //스케줄 삭제-스케줄의 아이디 값으로
@@ -83,5 +103,6 @@ public class PersonalMuckatScheduleService {
     public void deleteSchedule(String scheduleId) {
         scheduleRepository.deleteById(scheduleId);
     }
+
 
 }

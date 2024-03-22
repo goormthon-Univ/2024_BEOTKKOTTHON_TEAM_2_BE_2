@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonalMuckatMemoService {
@@ -42,35 +44,37 @@ public class PersonalMuckatMemoService {
             MuckatMemoEntity memo = new MuckatMemoEntity();
             memo.setRestaurantInfoEntity(restaurant);
             memo.setMuckatListEntity(muckatList);
-
+            memo.setIsCheck(false);
             personalMuckatMemoRepository.save(memo);
 
-            return new PersonalMuckatMemoDTO(restaurant.getRestaurantId(), muckatList.getMuckatId().toString());
+            return new PersonalMuckatMemoDTO(restaurant.getRestaurantId(), muckatList.getMuckatId().toString(),false);
         }
         return null;
     }
 
-    public PersonalMuckatMemoDTO getMemosByDTO(PersonalMuckatMemoDTO personalMuckatMemoDTO) {
-        Optional<MuckatListEntity> muckatListEntity = muckatListRepository.findById(personalMuckatMemoDTO.getPersonalMuckatId());
-        if (muckatListEntity.isPresent()) {
-            List<MuckatMemoEntity> memos = personalMuckatMemoRepository.findByMuckatListEntity(muckatListEntity.get());
-            Optional<MuckatMemoEntity> selectedMemo = memos.stream()
-                    .filter(memo -> memo.getRestaurantInfoEntity().getRestaurantId().equals(personalMuckatMemoDTO.getRestaurantId()))
-                    .findFirst();
+    public List<PersonalMuckatMemoDTO> getMemosByDTO(String muckatListId) {
+        Optional<MuckatListEntity> muckatListEntityOptional = muckatListRepository.findById(muckatListId);
+        if (muckatListEntityOptional.isPresent()) {
+            MuckatListEntity muckatListEntity = muckatListEntityOptional.get();
+            List<MuckatMemoEntity> memos = personalMuckatMemoRepository.findByMuckatListEntity(muckatListEntity);
 
-            if (selectedMemo.isPresent()) {
-                // PersonalMuckatMemoDTO로 변환하여 반환
-                return new PersonalMuckatMemoDTO(personalMuckatMemoDTO.getRestaurantId(), muckatListEntity.get().getMuckatId().toString());
-
-            } else {
-                // 해당하는 메모가 없는 경우 null 반환
-                return null;
+            // MuckatMemoEntity를 PersonalMuckatMemoDTO로 변환하여 리스트에 추가
+            List<PersonalMuckatMemoDTO> memoDTOs = new ArrayList<>();
+            for (MuckatMemoEntity memoEntity : memos) {
+                PersonalMuckatMemoDTO memoDTO = new PersonalMuckatMemoDTO(
+                        memoEntity.getRestaurantInfoEntity().getRestaurantId(),
+                        muckatListId,
+                        memoEntity.isCheck()
+                );
+                memoDTOs.add(memoDTO);
             }
+
+            return memoDTOs;
         } else {
-            // personalMuckatId에 해당하는 PersonalMuckatListEntity가 없는 경우 예외처리
-            throw new NotFoundException("PersonalMuckatListEntity not found with id: " + personalMuckatMemoDTO.getPersonalMuckatId());
+            throw new NotFoundException("MuckatListEntity not found with id: " + muckatListId);
         }
     }
+
 
     public PersonalMuckatMemoDTO getMemosByDTOAndCheck(PersonalMuckatMemoDTO personalMuckatMemoDTO) {
         Optional<MuckatListEntity> muckatListEntity = muckatListRepository.findById(personalMuckatMemoDTO.getPersonalMuckatId());
@@ -87,9 +91,10 @@ public class PersonalMuckatMemoService {
                 MuckatMemoEntity muckatMemoEntity=new MuckatMemoEntity();
                 muckatMemoEntity.setRestaurantInfoEntity(restaurantInfoEntity.get());
                 muckatMemoEntity.setMuckatListEntity(personalMuckatListEntity.get());
+                muckatMemoEntity.setIsCheck(personalMuckatMemoDTO.isCheck());
                 personalMuckatMemoRepository.save(muckatMemoEntity);
 
-                return new PersonalMuckatMemoDTO(personalMuckatMemoDTO.getRestaurantId(), muckatListEntity.get().getMuckatId().toString());
+                return new PersonalMuckatMemoDTO(muckatMemoEntity.getRestaurantInfoEntity().getRestaurantId(), muckatMemoEntity.getMuckatListEntity().getMuckatId(),muckatMemoEntity.getChecks());
 
             } else {
                 // 해당하는 메모가 없는 경우 null 반환

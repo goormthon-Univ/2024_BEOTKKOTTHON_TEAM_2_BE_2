@@ -1,9 +1,6 @@
 package muckkitlist_spring.muckkitlist_spring.service;
 
-import jakarta.persistence.EntityManager;
-import muckkitlist_spring.muckkitlist_spring.dto.RestaurantInfoDTO;
 import muckkitlist_spring.muckkitlist_spring.dto.UserReviewClientDTO;
-import muckkitlist_spring.muckkitlist_spring.dto.UserReviewDTO;
 import muckkitlist_spring.muckkitlist_spring.entity.RestaurantInfoEntity;
 import muckkitlist_spring.muckkitlist_spring.entity.UserInfoEntity;
 import muckkitlist_spring.muckkitlist_spring.entity.UserReviewEntity;
@@ -11,13 +8,14 @@ import muckkitlist_spring.muckkitlist_spring.repository.RestaurantInfoRepository
 import muckkitlist_spring.muckkitlist_spring.repository.UniversityInfoRepository;
 import muckkitlist_spring.muckkitlist_spring.repository.UserInfoRepository;
 import muckkitlist_spring.muckkitlist_spring.repository.UserReviewRepository;
+import muckkitlist_spring.muckkitlist_spring.utility.AscAndDesc;
+import muckkitlist_spring.muckkitlist_spring.utility.SortStandard;
 import muckkitlist_spring.muckkitlist_spring.utility.UserReviewMapper;
 import muckkitlist_spring.muckkitlist_spring.utility.UserReviewToClientMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -54,9 +52,9 @@ public class UserReviewService {
     }
 
 
-    public List<UserReviewClientDTO> getUserReviewsByRestaurantIdByStar(String restaurantId,String sortBy) {
+    public List<UserReviewClientDTO> getUserReviewsByRestaurantIdByStar(String restaurantId, AscAndDesc sortStandard) {
         List<UserReviewEntity> reviewEntities;
-        if(sortBy.equals("ASC")){
+        if(sortStandard.equals(SortStandard.STAR)){
             reviewEntities=reviewRepository.findByRestaurantIdOrderByStarAsc(restaurantId);
         }
         else{
@@ -66,9 +64,9 @@ public class UserReviewService {
 
     }
 
-    public List<UserReviewClientDTO> getUserReviewsByRestaurantIdByLikeCount(String restaurantId,String sortBy) {
+    public List<UserReviewClientDTO> getUserReviewsByRestaurantIdByLikeCount(String restaurantId, AscAndDesc sortStandard) {
         List<UserReviewEntity> reviewEntities;
-        if(sortBy.equals("ASC")){
+        if(sortStandard.equals(SortStandard.REVIEWCOUNT)){
             reviewEntities=reviewRepository.findByRestaurantIdOrderByLikeCountASC(restaurantId);
         }
         else{
@@ -78,9 +76,9 @@ public class UserReviewService {
 
     }
 
-    public List<UserReviewClientDTO> getUserReviewsByRestaurantIdByWriteTime(String restaurantId, String sortBy) {
+    public List<UserReviewClientDTO> getUserReviewsByRestaurantIdByWriteTime(String restaurantId, AscAndDesc sortStandard) {
         List<UserReviewEntity> reviewEntities;
-        if(sortBy.equals("ASC")){
+        if(sortStandard.equals(SortStandard.REVIEWDATE)){
             reviewEntities=reviewRepository.findByRestaurantIdOrderByWriteTimeAsc(restaurantId);
         }
         else{
