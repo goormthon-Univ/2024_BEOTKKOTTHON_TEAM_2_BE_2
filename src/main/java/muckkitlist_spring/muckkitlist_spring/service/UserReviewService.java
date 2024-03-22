@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -77,30 +78,46 @@ public class UserReviewService {
 
     }
 
+    public List<UserReviewClientDTO> getUserReviewsByRestaurantIdByWriteTime(String restaurantId, String sortBy) {
+        List<UserReviewEntity> reviewEntities;
+        if(sortBy.equals("ASC")){
+            reviewEntities=reviewRepository.findByRestaurantIdOrderByWriteTimeAsc(restaurantId);
+        }
+        else{
+            reviewEntities=reviewRepository.findByRestaurantIdOrderByWriteTimeDesc(restaurantId);
+        }
+        return reviewEntities.stream().map(userReviewMapper::toDTO).map(userReviewToClientMapper::toClientDTO).collect(Collectors.toList());
+
+    }
+
+
+
+
+
 //리뷰를 생성한다면 가게의 리뷰카운트도1증가 리뷰를 삭제하면 리뷰카운트 1감소
     public UserReviewClientDTO createReview(@RequestBody UserReviewClientDTO userReviewClientDTO) {
         // 사용자 정보와 음식점 정보 가져오기
         Optional<UserInfoEntity> userInfoEntityOptional = userInfoRepository.findById(userReviewClientDTO.getKakaoId());
         Optional<RestaurantInfoEntity> restaurantInfoEntityOptional = restaurantInfoRepository.findById(userReviewClientDTO.getRestaurantName());
 
+
         // 사용자 정보와 음식점 정보가 모두 존재하는 경우에만 리뷰 생성
         if (userInfoEntityOptional.isPresent() && restaurantInfoEntityOptional.isPresent()) {
             // 리뷰 엔티티 생성 및 설정
             UserReviewEntity reviewEntity = new UserReviewEntity();
-            reviewEntity.setUserReviewId(userReviewClientDTO.getUserReviewId());
+            UUID uuid4 = UUID.randomUUID();
+            reviewEntity.setUserReviewId(uuid4.toString());//적은 id값 무시하고 랜덤으로적용
             reviewEntity.setUserInfo(userInfoEntityOptional.get());
             reviewEntity.setRestaurant(restaurantInfoEntityOptional.get());
             reviewEntity.setStar(userReviewClientDTO.getStar());
             reviewEntity.setWriteTime(userReviewClientDTO.getWriteTime());
             reviewEntity.setDetails(userReviewClientDTO.getDetails());
-            reviewEntity.setLike_count(userReviewClientDTO.getLike_count());
 
             // 리뷰 저장
             UserReviewEntity createReviewEntity = reviewRepository.save(reviewEntity);
             int reviewCount = reviewRepository.countByRestaurantRestaurantId(userReviewClientDTO.getRestaurantName());
             restaurantInfoEntityOptional.get().setReviewCount(reviewCount);
             restaurantInfoRepository.save(restaurantInfoEntityOptional.get());
-
             System.out.println(reviewCount);
             // DTO로 변환하여 반환
 
@@ -180,9 +197,41 @@ public class UserReviewService {
     }
 
 
+    public UserReviewClientDTO updateUserReviewLikeCount(UserReviewClientDTO updatedReviewDTO,boolean push) {
+        Optional<UserReviewEntity> reviewPackage = reviewRepository.findById(updatedReviewDTO.getUserReviewId());
+        if (reviewPackage.isPresent()) {
+            UserReviewEntity reviewEntity = reviewPackage.get();
+            if(push==true) {
+                int n = reviewEntity.getLike_count();
+                n=n+1;
+                // 변경된 정보로 업데이트
+                reviewEntity.setLike_count(n);
+                // 리뷰 저장
+                UserReviewEntity updatedReviewEntity = reviewRepository.save(reviewEntity);
+
+                // DTO로 변환하여 반환
+                return userReviewToClientMapper.toClientDTO(userReviewMapper.toDTO(updatedReviewEntity));
+            }
+            else{
+                int n = reviewEntity.getLike_count();
+                n=n-1;
+                // 변경된 정보로 업데이트
+                reviewEntity.setLike_count(n);
+                // 리뷰 저장
+                UserReviewEntity updatedReviewEntity = reviewRepository.save(reviewEntity);
+
+                // DTO로 변환하여 반환
+                return userReviewToClientMapper.toClientDTO(userReviewMapper.toDTO(updatedReviewEntity));
+            }
+                } else {
+                // 업데이트할 리뷰가 존재하지 않는 경우 예외 처리
+                throw new IllegalArgumentException("User review not found");
+        }
 
 
 
+
+    }
 
 
 }

@@ -9,4 +9,5 @@ public class PersonalMuckatMemoDTO {
     private final String restaurantId;
     private final String personalMuckatId;
 
+
 }

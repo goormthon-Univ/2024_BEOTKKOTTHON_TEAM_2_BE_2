@@ -1,15 +1,14 @@
 package muckkitlist_spring.muckkitlist_spring.entity;
 
-
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+
+import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
-
 
 @Entity
 @Table(name = "image")
@@ -21,9 +20,10 @@ public class ImageEntity {
   private String imageId;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "restaurant_id")
   @OnDelete(action = OnDeleteAction.CASCADE)
-  @JoinColumn(name = "muckat_id")
   private MuckatListEntity muckatListEntity;
+
 
   @Column(name= "timestamp")
   private LocalDate timestamp;

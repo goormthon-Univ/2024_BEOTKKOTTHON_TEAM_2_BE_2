@@ -12,6 +12,7 @@ import org.webjars.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PersonalMuckatScheduleService {
@@ -34,16 +35,17 @@ public class PersonalMuckatScheduleService {
         Optional<MuckatListEntity> muckatListEntity= muckatListRepository.findById(personalMuckatScheduleDTO.getPersonalMuckatId()) ;
         Optional<RestaurantInfoEntity> restaurantInfoEntity=restaurantInfoRepository.findById(personalMuckatScheduleDTO.getRestaurantId());
         MuckatScheduleEntity muckatScheduleEntity=new MuckatScheduleEntity();
-        muckatScheduleEntity.setScheduleId(personalMuckatScheduleDTO.getScheduleId());
+        UUID uuid4 = UUID.randomUUID();
+        muckatScheduleEntity.setScheduleId(uuid4.toString());
         muckatScheduleEntity.setRestaurantEntity(restaurantInfoEntity.get());
         muckatScheduleEntity.setPersonalMuckatList(muckatListEntity.get());
-        muckatScheduleEntity.setTimeStamp(LocalDate.now());
+        muckatScheduleEntity.setTimeStamp(personalMuckatScheduleDTO.getTimestamp());
         scheduleRepository.save(muckatScheduleEntity);
-        return new PersonalMuckatScheduleDTO(personalMuckatScheduleDTO.getScheduleId(),muckatListEntity.get().getMuckatId(),restaurantInfoEntity.get().getRestaurantId(),LocalDate.now());
+        return new PersonalMuckatScheduleDTO(muckatScheduleEntity.getScheduleId(), muckatListEntity.get().getMuckatId().toString(),restaurantInfoEntity.get().getRestaurantId(),muckatScheduleEntity.getTimestamp());
     }
     // 개인 먹잇감 스케줄 삭제
     public PersonalMuckatScheduleDTO updateSchedule(PersonalMuckatScheduleDTO personalMuckatScheduleDTO) {
-        // 스케쥴을 찾습니다. (예를 들어, 스케쥴의 ID를 사용하여)
+        // 스케쥴을 찾습니다.
         Optional<MuckatScheduleEntity> optionalMuckatScheduleEntity = scheduleRepository.findById(personalMuckatScheduleDTO.getScheduleId());
 
         // 스케쥴이 존재하는지 확인합니다.
@@ -56,7 +58,7 @@ public class PersonalMuckatScheduleService {
 
             muckatScheduleEntity.setRestaurantEntity(restaurantInfoEntity.get());
             muckatScheduleEntity.setPersonalMuckatList(muckatListEntity.get());
-
+            muckatScheduleEntity.setTimeStamp(personalMuckatScheduleDTO.getTimestamp());
             // 업데이트된 스케쥴을 저장합니다.
             MuckatScheduleEntity updatedScheduleEntity = scheduleRepository.save(muckatScheduleEntity);
 
@@ -65,7 +67,7 @@ public class PersonalMuckatScheduleService {
                     updatedScheduleEntity.getScheduleId(),
                     updatedScheduleEntity.getMuckatListEntity().getMuckatId(),
                     updatedScheduleEntity.getRestaurantInfoEntity().getRestaurantId(),
-                    LocalDate.now()
+                    muckatScheduleEntity.getTimestamp()
             );
         } else {
             // 스케쥴을 찾을 수 없을 때 예외처리
@@ -76,11 +78,10 @@ public class PersonalMuckatScheduleService {
 
 
 
-
+//스케줄 삭제-스케줄의 아이디 값으로
 
     public void deleteSchedule(String scheduleId) {
         scheduleRepository.deleteById(scheduleId);
     }
-    // 개인 스케쥴 수정
 
 }

@@ -33,7 +33,7 @@ public class UserInfoController {
     }
 
     @GetMapping("/{userId}")
-    @Operation(summary = "사용자 조회", description = "특정 사용자의 정보를 아이디값으로 조회합니다.")
+    @Operation(summary = "사용자 조회", description = "특정 사용자의 정보를 카카오 아이디값으로 조회합니다.")
     public ResponseEntity<UserInfoDTO> getUserById(@PathVariable String userId) {
         UserInfoDTO userDTO = userInfoService.getUserById(userId);
         return userDTO != null ?
@@ -49,14 +49,6 @@ public class UserInfoController {
     }
 
 
-/*
-    @PutMapping("/{userId}/changeUserId/{changeUserId}")
-    @Operation(summary = "사용자 정보 수정", description = "특정 사용자의 이름(아이디) 정보를 수정합니다.")
-    public ResponseEntity<UserInfoDTO> updateUserName(@PathVariable String userId,@PathVariable String changeUserId) {
-        UserInfoDTO updatedUserDTO = userInfoService.updateUserName(userId, changeUserId);
-        return ResponseEntity.ok(updatedUserDTO);
-    }
-*/
     @PutMapping("/changeUniversity")
     @Operation(summary = "사용자 정보 수정", description = "특정 사용자의 대학교 정보를 수정합니다.")
     public ResponseEntity<UserInfoClientDTO> updateUserUniversity(@RequestBody UserInfoClientDTO userInfoDTO) {

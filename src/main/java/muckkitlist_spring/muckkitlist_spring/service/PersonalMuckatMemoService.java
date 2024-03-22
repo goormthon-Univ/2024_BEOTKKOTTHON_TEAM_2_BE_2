@@ -2,6 +2,7 @@ package muckkitlist_spring.muckkitlist_spring.service;
 
 import muckkitlist_spring.muckkitlist_spring.dto.PersonalMuckatMemoDTO;
 import muckkitlist_spring.muckkitlist_spring.entity.MuckatListEntity;
+//import muckkitlist_spring.muckkitlist_spring.entity.MuckatMemoEntity;
 import muckkitlist_spring.muckkitlist_spring.entity.MuckatMemoEntity;
 import muckkitlist_spring.muckkitlist_spring.entity.RestaurantInfoEntity;
 import muckkitlist_spring.muckkitlist_spring.repository.MuckatMemoRepository;
@@ -44,7 +45,7 @@ public class PersonalMuckatMemoService {
 
             personalMuckatMemoRepository.save(memo);
 
-            return new PersonalMuckatMemoDTO(restaurant.getRestaurantId(), muckatList.getMuckatId());
+            return new PersonalMuckatMemoDTO(restaurant.getRestaurantId(), muckatList.getMuckatId().toString());
         }
         return null;
     }
@@ -59,7 +60,7 @@ public class PersonalMuckatMemoService {
 
             if (selectedMemo.isPresent()) {
                 // PersonalMuckatMemoDTO로 변환하여 반환
-                return new PersonalMuckatMemoDTO(personalMuckatMemoDTO.getRestaurantId(),muckatListEntity.get().getMuckatId());
+                return new PersonalMuckatMemoDTO(personalMuckatMemoDTO.getRestaurantId(), muckatListEntity.get().getMuckatId().toString());
 
             } else {
                 // 해당하는 메모가 없는 경우 null 반환
@@ -88,7 +89,7 @@ public class PersonalMuckatMemoService {
                 muckatMemoEntity.setMuckatListEntity(personalMuckatListEntity.get());
                 personalMuckatMemoRepository.save(muckatMemoEntity);
 
-                return new PersonalMuckatMemoDTO(personalMuckatMemoDTO.getRestaurantId(),muckatListEntity.get().getMuckatId());
+                return new PersonalMuckatMemoDTO(personalMuckatMemoDTO.getRestaurantId(), muckatListEntity.get().getMuckatId().toString());
 
             } else {
                 // 해당하는 메모가 없는 경우 null 반환

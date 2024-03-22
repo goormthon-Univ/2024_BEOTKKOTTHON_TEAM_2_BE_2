@@ -76,7 +76,14 @@ public class ReviewController {
             userReviews = sortBy.equals("ASC") ?
                     reviewService.getUserReviewsByRestaurantIdByLikeCount(restaurantId, "ASC") :
                    reviewService.getUserReviewsByRestaurantIdByLikeCount(restaurantId, "DESC");
-        } else {
+        }
+        else if (selectStandard.equals("writeTime")) {
+            userReviews = sortBy.equals("ASC") ?
+                    reviewService.getUserReviewsByRestaurantIdByWriteTime(restaurantId, "ASC") :
+                    reviewService.getUserReviewsByRestaurantIdByWriteTime(restaurantId, "DESC");
+        }
+
+        else {
             // 올바르지 않은 정렬 기준을 사용하는 경우, 기본적으로 정렬되지 않은 리뷰를 반환합니다.
             userReviews = reviewService.getUserReviewsByRestaurantId(restaurantId);
         }
@@ -94,12 +101,13 @@ public class ReviewController {
         return ResponseEntity.ok(Collections.singletonList(updatedReviews));
     }
 
-    @PostMapping("/update/like-count")
-    @Operation(summary = "특정 리뷰 업데이트", description = "리뷰id를 통해 특정 리뷰에 대한 좋아요(like_count)를 업데이트합니다.유저리뷰id와 ")
+    @PostMapping("/update/like-count/{likes}")
+    @Operation(summary = "특정 리뷰 업데이트", description = "리뷰id를 통해 특정 리뷰에 대한 좋아요(like_count)를 업데이트합니다.유저리뷰id와 likes의 true false값 부여 ")
     public ResponseEntity<List<UserReviewClientDTO>> updateLikeCount(
-            @RequestBody UserReviewClientDTO updatedReviewDTO
+            @RequestBody UserReviewClientDTO updatedReviewDTO,
+            @PathVariable boolean likes
     ) {
-        UserReviewClientDTO updatedReviews = reviewService.updateUserReview(updatedReviewDTO);
+        UserReviewClientDTO updatedReviews = reviewService.updateUserReviewLikeCount(updatedReviewDTO,likes);
         return ResponseEntity.ok(Collections.singletonList(updatedReviews));
     }
 
