@@ -23,6 +23,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
+
                     sh 'chmod +x ./gradlew'
                     sh './gradlew build'
                 }
@@ -31,6 +32,11 @@ pipeline {
         stage('Build And Deploy') {
             steps {
                 script {
+                echo "AWS_S3_BUCKET: ${AWS_S3_BUCKET}"
+                                    echo "AWS_STACK_AUTO: ${AWS_STACK_AUTO}"
+                                    echo "AWS_REGION: ${AWS_REGION}"
+                                    echo "AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}"
+                                    echo "AWS_SECRET_KEY: ${AWS_SECRET_KEY}"
                     sh "java -jar -DAWS_SECRET_KEY=${AWS_ACCESS_KEY} -DAWS_SECRET_KEY=${AWS_SECRET_KEY} -DAWS_REGION=${AWS_REGION} -DAWS_STACK_AUTO=${AWS_STACK_AUTO} -DAWS.S3_BUCKET=${AWS_S3_BUCKET} ./build/libs/muckkitlist_spring-0.0.1-SNAPSHOT.jar"
                 }
             }
