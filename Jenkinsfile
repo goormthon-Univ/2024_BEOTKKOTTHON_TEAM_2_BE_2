@@ -4,6 +4,13 @@ pipeline {
         jdk "java"
         gradle "gradle"
     }
+    environment {
+        cloud.aws.s3.bucket= ${env.cloud.aws.s3.bucket}
+        cloud.aws.stack.auto= ${env.cloud.aws.stack.auto}
+        cloud.aws.region.static= ${env.cloud.aws.region.static}
+        cloud.aws.credentials.access-key= ${env.cloud.aws.credentials.access-key}
+        cloud.aws.credentials.secret-key= ${env.cloud.aws.credentials.secret-key}
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -20,11 +27,11 @@ pipeline {
                     }
             }
         }
-
         stage('Build And Deploy') {
             steps {
                     script {
-                        sh 'java -Daws.accessKeyId=${env.AWS_ACCESS_KEY_ID} -Daws.secretKey=${env.AWS_SECRET_ACCESS_KEY} -jar ./build/libs/muckkitlist_spring-0.0.1-SNAPSHOT.jar'
+                        sh 'java -Daws.accessKeyId=${env.AWS_ACCESS_KEY_ID} -Daws.secretKey=${env.AWS_SECRET_ACCESS_KEY} -jar muckatlist_spring.jar
+'
                     }
             }
         }
