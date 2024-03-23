@@ -31,7 +31,7 @@ pipeline {
         stage('Build And Deploy') {
             steps {
                 script {
-                    sh "java -jar -Daws.accessKeyId=${AWS_ACCESS_KEY} -Daws.secretKey=${AWS_SECRET_KEY}  ./build/libs/muckkitlist_spring-0.0.1-SNAPSHOT.jar"
+                    sh "java -jar -Daws.accessKeyId=${AWS_ACCESS_KEY} -Daws.secretKey=${AWS_SECRET_KEY} -Daws.region=${AWS_REGION} -Daws.AWS_STACK_AUTO=${AWS_STACK_AUTO} -Daws.S3_BUCKET=${AWS_S3_BUCKET}./build/libs/muckkitlist_spring-0.0.1-SNAPSHOT.jar"
                 }
             }
         }
