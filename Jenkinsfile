@@ -22,17 +22,17 @@ pipeline {
         //window는 sh -> bat 변경 필요
         stage('Install Dependencies') {
             steps {
-                    script {
-                        sh 'chmod +x ./gradlew'
-                        sh './gradlew build'
-                    }
+                script {
+                    sh 'chmod +x ./gradlew'
+                    sh './gradlew build'
+                }
             }
         }
         stage('Build And Deploy') {
             steps {
-                    script {
-                        sh "java -Daws.accessKeyId=${AWS_ACCESS_KEY_ID} -Daws.secretKey=${AWS_SECRET_ACCESS_KEY} -jar ./build/libs/muckkitlist_spring-0.0.1-SNAPSHOT.jar"
-                    }
+                script {
+                    sh "java -Daws.accessKeyId=${cloud.aws.credentials.access-key} -Daws.secretKey=${cloud.aws.credentials.secret-key} -jar ./build/libs/muckkitlist_spring-0.0.1-SNAPSHOT.jar"
+                }
             }
         }
     }
