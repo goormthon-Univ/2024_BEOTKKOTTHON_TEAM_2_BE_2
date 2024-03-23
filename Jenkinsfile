@@ -7,7 +7,7 @@ pipeline {
     environment {
         AWS_S3_BUCKET = "${env.cloud.aws.s3.bucket}"
         AWS_STACK_AUTO = "${env.cloud.aws.stack.auto}"
-        AWS_REGION = "${env.cloud.aws.region}"
+        AWS_REGION = "${env.AWS_REGION}"
         AWS_ACCESS_KEY = "${env.cloud.aws.credentials.accessKey}"
         AWS_SECRET_KEY = "${env.cloud.aws.credentials.secretKey}"
     }
