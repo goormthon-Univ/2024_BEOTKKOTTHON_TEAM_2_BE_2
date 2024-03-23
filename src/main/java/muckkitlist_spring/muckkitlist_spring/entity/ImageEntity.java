@@ -1,5 +1,6 @@
 package muckkitlist_spring.muckkitlist_spring.entity;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "image")
-@Getter
+@Data
 @RequiredArgsConstructor
 public class ImageEntity {
   @Id
@@ -20,7 +21,7 @@ public class ImageEntity {
   private String imageId;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "restaurant_id")
+  @JoinColumn(name = "muckat_id")
   @OnDelete(action = OnDeleteAction.CASCADE)
   private MuckatListEntity muckatListEntity;
 
