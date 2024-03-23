@@ -7,7 +7,7 @@ pipeline {
     environment {
         AWS_S3_BUCKET = credentials('env.cloud.aws.s3.bucket')
         AWS_STACK_AUTO = credentials('env.cloud.aws.stack.auto')
-        AWS_REGION = credentials('env.cloud.aws.region')
+        AWS_REGION = 'ap-northeast-2' // AWS 리전을 직접 설정합니다.
         AWS_ACCESS_KEY = credentials('env.cloud.aws.credentials.accessKey')
         AWS_SECRET_KEY = credentials('env.cloud.aws.credentials.secretKey')
     }
