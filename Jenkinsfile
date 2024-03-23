@@ -5,7 +5,7 @@ pipeline {
         gradle "gradle"
     }
     environment {
-        AWS_S3_BUCKET = "${env.CLOUD_AWS_S3_BUCKET}"
+        AWS_S3_BUCKET = "${CLOUD_AWS_S3_BUCKET}"
         AWS_STACK_AUTO = "${env.AWS_STACK_AUTO}"
         AWS_REGION = "${env.AWS_REGION}"
         AWS_ACCESS_KEY = "${env.CLOUD_AWS_CREDENTIALS_ACCESSKEY}"
