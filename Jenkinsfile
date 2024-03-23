@@ -5,11 +5,11 @@ pipeline {
         gradle "gradle"
     }
     environment {
-        AWS_S3_BUCKET = "${env.cloud.aws.s3.bucket}"
-        AWS_STACK_AUTO = "${env.cloud.aws.stack.auto}"
+        AWS_S3_BUCKET = "${env.CLOUD_AWS_S3_BUCKET}"
+        AWS_STACK_AUTO = "${env.AWS_STACK_AUTO}"
         AWS_REGION = "${env.AWS_REGION}"
-        AWS_ACCESS_KEY = "${env.cloud.aws.credentials.accessKey}"
-        AWS_SECRET_KEY = "${env.cloud.aws.credentials.secretKey}"
+        AWS_ACCESS_KEY = "${env.CLOUD_AWS_CREDENTIALS_ACCESSKEY}"
+        AWS_SECRET_KEY = "${env.CLOUD_AWS_CREDENTIALS_SECRETKEY}"
     }
 
     stages {
