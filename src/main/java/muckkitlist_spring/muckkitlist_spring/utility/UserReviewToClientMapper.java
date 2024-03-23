@@ -11,7 +11,7 @@ public class UserReviewToClientMapper {
                 userReviewDTO.getUserReviewId(),
                 userReviewDTO.getUserInfo().getKakaoId(),
                 userReviewDTO.getUserInfo().getUserId(),
-                userReviewDTO.getRestaurant().getRestaurantName(),
+                userReviewDTO.getRestaurant().getRestaurantId(),
                 userReviewDTO.getStar(),
                 userReviewDTO.getWriteTime(),
                 userReviewDTO.getDetails(),
