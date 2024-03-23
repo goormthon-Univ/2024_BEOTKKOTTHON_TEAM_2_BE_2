@@ -5,23 +5,11 @@ pipeline {
         gradle "gradle"
     }
     environment {
-        cloud {
-            aws {
-                s3 {
-                    bucket = env.cloud.aws.s3.bucket
-                }
-                stack {
-                    auto = env.cloud.aws.stack.auto
-                }
-                region {
-                    static = env.cloud.aws.region.static
-                }
-                credentials {
-                    accessKey = env.cloud.aws.credentials.accessKey
-                    secretKey = env.cloud.aws.credentials.secretKey
-                }
-            }
-        }
+        cloud.aws.s3.bucket = env.cloud.aws.s3.bucket
+        cloud.aws.stack.auto = env.cloud.aws.stack.auto
+        cloud.aws.region = env.cloud.aws.region
+        cloud.aws.credentials.access-key = env.cloud.aws.credentials.access-key
+        cloud.aws.credentials.secret-key = env.cloud.aws.credentials.secret-key
     }
 
     stages {
@@ -30,6 +18,8 @@ pipeline {
                 checkout scm
             }
         }
+        //후에 자바 스프링 관련 추가
+        //window는 sh -> bat 변경 필요
         stage('Install Dependencies') {
             steps {
                 script {
@@ -41,7 +31,7 @@ pipeline {
         stage('Build And Deploy') {
             steps {
                 script {
-                    sh "java -Daws.accessKeyId=${cloud.aws.credentials.accessKey} -Daws.secretKey=${cloud.aws.credentials.secretKey} -jar ./build/libs/muckkitlist_spring-0.0.1-SNAPSHOT.jar"
+                    sh "java -Daws.accessKeyId=${cloud.aws.credentials.access-key} -Daws.secretKey=${cloud.aws.credentials.secret-key} -jar ./build/libs/muckkitlist_spring-0.0.1-SNAPSHOT.jar"
                 }
             }
         }
