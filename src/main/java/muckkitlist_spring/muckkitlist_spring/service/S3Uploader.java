@@ -83,7 +83,7 @@ public class S3Uploader {
 
         // UUID를 파일명에 추가
         String uuid = UUID.randomUUID().toString();
-        String uniqueFileName = uuid + "_" + originalFileName.replaceAll("\\s", "_");
+        String uniqueFileName = uuid;
 
         String fileName = uniqueFileName;
         log.info("fileName: " + uniqueFileName);
@@ -110,7 +110,7 @@ public class S3Uploader {
     private File convert(MultipartFile file) throws IOException {
         String originalFileName = file.getOriginalFilename();
         String uuid = UUID.randomUUID().toString();
-        String uniqueFileName = uuid + "_" + originalFileName.replaceAll("\\s", "_");
+        String uniqueFileName = uuid;
 
         File convertFile = new File(uniqueFileName);
         if (convertFile.createNewFile()) {
