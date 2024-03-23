@@ -56,7 +56,7 @@ public class S3Uploader {
         String uuid = UUID.randomUUID().toString();
         String uniqueFileName = uuid + "_" + originalFileName.replaceAll("\\s", "_");
 
-       // String fileName = "uniqueFileName";
+        String fileName = "uniqueFileName";
         log.info("fileName: " + uniqueFileName);
         File uploadFile = convert(multipartFile);
         Optional<UserReviewEntity> userReviewEntity=userReviewRepository.findById(reviewId);
@@ -67,7 +67,7 @@ public class S3Uploader {
             reviewImageEntity.setTimestamp(LocalDate.now());
             reviewImageRepository.save(reviewImageEntity);
 
-            String uploadImageUrl = putS3(uploadFile, "");
+            String uploadImageUrl = putS3(uploadFile, fileName);
             removeNewFile(uploadFile);
             return uploadImageUrl;
         }
@@ -85,7 +85,7 @@ public class S3Uploader {
         String uuid = UUID.randomUUID().toString();
         String uniqueFileName = uuid + "_" + originalFileName.replaceAll("\\s", "_");
 
-        //String fileName = uniqueFileName;
+        String fileName = uniqueFileName;
         log.info("fileName: " + uniqueFileName);
         File uploadFile = convert(multipartFile);
         Optional<MuckatListEntity> muckatListEntity=muckatListRepository.findById(muckatId);
@@ -96,7 +96,7 @@ public class S3Uploader {
             imageEntity.setMuckatListEntity(muckatListEntity.get());
             imageEntity.setTimestamp(LocalDate.now());
             imageRepository.save(imageEntity);
-            String uploadImageUrl = putS3(uploadFile, "");
+            String uploadImageUrl = putS3(uploadFile, fileName);
             removeNewFile(uploadFile);
             return uploadImageUrl;
         }
