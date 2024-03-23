@@ -5,11 +5,11 @@ pipeline {
         gradle "gradle"
     }
     environment {
-        cloud.aws.s3.bucket = env.cloud.aws.s3.bucket
-        cloud.aws.stack.auto = env.cloud.aws.stack.auto
-        cloud.aws.region = env.cloud.aws.region
-        cloud.aws.credentials.accessKey = env.cloud.aws.credentials.accessKey
-        cloud.aws.credentials.secretKey = env.cloud.aws.credentials.secretKey
+        cloud.aws.s3.bucket = "${env.cloud.aws.s3.bucket}"
+        cloud.aws.stack.auto = "${env.cloud.aws.stack.auto}"
+        cloud.aws.region = "${env.cloud.aws.region}"
+        cloud.aws.credentials.accessKey = "${env.cloud.aws.credentials.accessKey}"
+        cloud.aws.credentials.secretKey = "${env.cloud.aws.credentials.secretKey}"
     }
 
     stages {
@@ -18,8 +18,8 @@ pipeline {
                 checkout scm
             }
         }
-        // Later add Java Spring related stages
-        // For Windows, change 'sh' to 'bat'
+        // 자바 스프링 관련 단계 추가
+        // 윈도우에서는 'sh'를 'bat'으로 변경
         stage('Install Dependencies') {
             steps {
                 script {
