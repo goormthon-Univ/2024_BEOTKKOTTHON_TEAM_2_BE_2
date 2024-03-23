@@ -9,7 +9,7 @@ pipeline {
         AWS_STACK_AUTO = "${env.AWS_STACK_AUTO}"
         AWS_REGION = "${env.AWS_REGION}"
         AWS_ACCESS_KEY = "${env.AWS_ACCESS_KEY}"
-        AWS_SECRET_KEY = "${env.AWS_REGION}"
+        AWS_SECRET_KEY = "${env.AWS_SECRET_KEY}" // AWS_SECRET_KEY에 대한 값을 설정해야 합니다.
     }
 
     stages {
@@ -31,7 +31,7 @@ pipeline {
         stage('Build And Deploy') {
             steps {
                 script {
-                    sh "java -jar -Daws.accessKeyId=${AWS_ACCESS_KEY} -Daws.secretKey=${AWS_SECRET_KEY} -Daws.region=${AWS_REGION} -Daws.AWS_STACK_AUTO=${AWS_STACK_AUTO} -Daws.S3_BUCKET=${AWS_S3_BUCKET}./build/libs/muckkitlist_spring-0.0.1-SNAPSHOT.jar"
+                    sh "java -jar -Daws.accessKeyId=${AWS_ACCESS_KEY} -Daws.secretKey=${AWS_SECRET_KEY} -Daws.region=${AWS_REGION} -Daws.AWS_STACK_AUTO=${AWS_STACK_AUTO} -Daws.S3_BUCKET=${AWS_S3_BUCKET} ./build/libs/muckkitlist_spring-0.0.1-SNAPSHOT.jar"
                 }
             }
         }
