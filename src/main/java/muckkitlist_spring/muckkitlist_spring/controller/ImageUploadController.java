@@ -14,7 +14,7 @@ import java.io.IOException;
 @RestController
 public class ImageUploadController {
 
-    private final S3Uploader s3Uploader;
+    public S3Uploader s3Uploader;
 
     @Autowired
     public ImageUploadController(S3Uploader s3Uploader) {
