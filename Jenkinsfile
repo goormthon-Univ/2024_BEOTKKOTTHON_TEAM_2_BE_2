@@ -5,11 +5,11 @@ pipeline {
         gradle "gradle"
     }
     environment {
-        AWS_S3_BUCKET = "${env.AWS_S3_BUCKET}"
-        AWS_STACK_AUTO = "${env.AWS_STACK_AUTO}"
-        AWS_REGION = "${env.AWS_REGION}"
-        AWS_ACCESS_KEY = "${env.AWS_ACCESS_KEY}"
-        AWS_SECRET_KEY = "${env.AWS_SECRET_KEY}" // AWS_SECRET_KEY에 대한 값을 설정해야 합니다.
+        AWS_S3_BUCKET = "${env.CLOUD_AWS_S3_BUCKET}"
+        AWS_STACK_AUTO = "${env.CLOUD_AWS_STACK_AUTO}"
+        AWS_REGION = "${env.CLOUD_AWS_REGION}"
+        AWS_ACCESS_KEY = "${env.CLOUD_AWS_ACCESS_KEY}"
+        AWS_SECRET_KEY = "${env.CLOUD_AWS_SECRET_KEY}" // AWS_SECRET_KEY에 대한 값을 설정해야 합니다.
     }
 
     stages {
